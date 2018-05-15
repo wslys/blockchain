@@ -8,10 +8,20 @@
 
 class GateIO
 {
+    private $ACCESS_KEY = '';
+    private $SECRET_KEY = '';
+    function __construct($ACCESS_KEY = '', $SECRET_KEY = '') {
+        date_default_timezone_set("Etc/GMT+0");
+        $this->ACCESS_KEY = $ACCESS_KEY;
+        $this->SECRET_KEY = $SECRET_KEY;
+    }
+
     function gate_query($path, array $req = array()) {
         // API settings, add your Key and Secret at here
-        $key = "5C1D9150-8FA9-44E7-87A5-F3F918FC08ED";
-        $secret = "3e19b12719beeefd97d74da5ebae8d5feffd5636f6249759317362f09409bc62";
+        $key = $this->ACCESS_KEY;
+        $secret = $this->SECRET_KEY;
+//        $key = "5C1D9150-8FA9-44E7-87A5-F3F918FC08ED";
+//        $secret = "3e19b12719beeefd97d74da5ebae8d5feffd5636f6249759317362f09409bc62";
 
         // generate a nonce as microtime, with as-string handling to avoid problems with 32bits systems
         $mt = explode(' ', microtime());

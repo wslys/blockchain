@@ -6,10 +6,14 @@
 class HuoBi {
     // private $api = 'api.huobi.pro';
     private $api = 'api.huobi.br.com';
+    private $ACCESS_KEY = '';
+    private $SECRET_KEY = '';
     public $api_method = '';
     public $req_method = '';
-    function __construct() {
+    function __construct($ACCESS_KEY = '', $SECRET_KEY = '') {
         date_default_timezone_set("Etc/GMT+0");
+        $this->ACCESS_KEY = $ACCESS_KEY;
+        $this->SECRET_KEY = $SECRET_KEY;
     }
     /**
      * 行情类API
@@ -345,7 +349,7 @@ class HuoBi {
     function create_sign_url($append_param = []) {
         // 验签参数
         $param = [
-            'AccessKeyId' => ACCESS_KEY,
+            'AccessKeyId' => $this->ACCESS_KEY,
             'SignatureMethod' => 'HmacSHA256',
             'SignatureVersion' => 2,
             'Timestamp' => date('Y-m-d\TH:i:s', time())
@@ -372,7 +376,7 @@ class HuoBi {
     // 生成签名
     function create_sig($param) {
         $sign_param_1 = $this->req_method."\n".$this->api."\n".$this->api_method."\n".implode('&', $param);
-        $signature = hash_hmac('sha256', $sign_param_1, SECRET_KEY, true);
+        $signature = hash_hmac('sha256', $sign_param_1, $this->SECRET_KEY, true);
         return base64_encode($signature);
     }
     function curl($url,$postdata=[]) {
