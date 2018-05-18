@@ -2,6 +2,9 @@
 /**
  * 火币REST API库
  * @author https://github.com/del-xiong
+ *
+ * 官网： https://www.huobi.pro/
+ * API : https://github.com/huobiapi/API_Docs_en/wiki
  */
 class HuoBi {
     // private $api = 'api.huobi.pro';

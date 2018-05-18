@@ -21,7 +21,7 @@ include "../lib/func/func.php";
 include "../conf/conf.php";
 
 // TODO Binance
-//$Binance2 = new Binance();
+$Binance2 = new Binance();
 //
 //$prices = $Binance2->getPrice();
 //$kt = 0;
@@ -41,17 +41,19 @@ include "../conf/conf.php";
 
 
 // TODO HuoBi
-//$HuoBi = new HuoBi();
-//
-//$result = $HuoBi->get_market_depth('btcusdt', 'step2');
+$HuoBi = new HuoBi();
+// 火币K线数据
+$huobi_kline = $HuoBi->get_history_kline('btcusdt', '1min', '1');
+// 火币聚合行情
+$huobi_depth = $HuoBi->get_market_depth('btcusdt', 'step1');
+print_r($huobi_depth);
+
+
+//$OKCoin = new OKCoin(new OKCoin_ApiKeyAuthentication($conf['okex']['API_KEY'], $conf['okex']['SECRET_KEY']));
+////获取OKCoin市场深度
+//$params = array('symbol' => 'btc_usd');
+//$result = $OKCoin -> depthApi($params);
 //print_r($result);
-
-
-$OKCoin = new OKCoin(new OKCoin_ApiKeyAuthentication($conf['okex']['API_KEY'], $conf['okex']['SECRET_KEY']));
-//获取OKCoin市场深度
-$params = array('symbol' => 'btc_usd');
-$result = $OKCoin -> depthApi($params);
-print_r($result);
 
 //获取OKCoin期货深度信息
 //$params = array('symbol' => 'btc_usd', 'contract_type' => 'this_week', 'size' => 5);

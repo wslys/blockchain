@@ -4,6 +4,8 @@
  * User: user
  * Date: 18-5-11
  * Time: 下午3:25
+ * 官网： https://gate.io/
+ * API ： https://gate.io/api2
  */
 
 class GateIO

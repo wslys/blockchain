@@ -4,6 +4,9 @@
  * User: user
  * Date: 18-5-16
  * Time: 上午11:10
+ *
+ * 官网 ： https://bittrex.com/
+ * API  ： https://support.bittrex.com/hc/en-us/articles/115003723911
  */
 
 /**

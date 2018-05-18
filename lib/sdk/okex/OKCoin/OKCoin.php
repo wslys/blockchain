@@ -1,4 +1,8 @@
 <?php
+/**
+ * 官网 ： https://www.okex.com/
+ * API  ： https://github.com/okcoin-okex/API-docs-OKEx.com
+ */
 require_once (dirname(__FILE__) . '/Base.php');
 
 class OKCoin extends OKCoinBase {

@@ -24,13 +24,13 @@ $type = isset($_GET['type'])?$_GET['type']:'';
 $pair = explode('_', $type)[0];
 $type = explode('_', $type)[1];
 
-$gate  = new Gate();
-$huobi = new Huobi();
+/*$gate  = new Gate();
+$huobi = new Huobi();*/
 
 $title = $name;
 $name  = strtolower($name);
 
-// 火币数据                  get_market_detail
+/*// 火币数据                  get_market_detail
 $usdt_huobi_datas = $huobi->get_market_trade($name . 'usdt');
 $btc_huobi_datas  = $huobi->get_market_trade($name . 'btc');
 $eth_huobi_datas  = $huobi->get_market_trade($name . 'eth');
@@ -38,7 +38,7 @@ $eth_huobi_datas  = $huobi->get_market_trade($name . 'eth');
 // GateIO数据
 $usdt_gateio_datas = $gate->get_ticker($name . '_usdt');
 $btc_gateio_datas  = $gate->get_ticker($name . '_btc');
-$eth_gateio_datas  = $gate->get_ticker($name . '_eth');
+$eth_gateio_datas  = $gate->get_ticker($name . '_eth');*/
 ?>
 
 <!DOCTYPE html>
@@ -104,89 +104,9 @@ $eth_gateio_datas  = $gate->get_ticker($name . '_eth');
         <div class="row margin-b-lg">
             <div class="col-md-12 text-center">
                 <h2 class="section-heading">多交易平台虚拟货币交易价<br class="hidden-xs"> 和各虚拟货币在各交易平台的 <span class="text-green"> 价格对比 </span></h2>
-                <div class="row">
-                    <ul id="myTab" class="nav nav-tabs">
-                        <li class="active"><a href="#USDT" data-toggle="tab">USDT</a></li>
-                        <li><a href="#BTC" data-toggle="tab">BTC</a></li>
-                        <li><a href="#ETH" data-toggle="tab">ETH</a></li>
-                    </ul>
-                    <div id="myTabContent" class="tab-content">
-                        <div class="tab-pane fade in active" id="USDT">
-
-                            <table  class="table">
-                                <thead>
-                                <tr>平台</tr>
-                                <tr>价格</tr>
-                                <tr>涨幅</tr>
-                                <tr>差价</tr>
-                                </thead>
-                                <tr>
-                                    <td>火币交易平台【<?= $title ?> / USDT 】</td>
-                                    <td>$ <?= $usdt_huobi_datas->status == "ok" ? $usdt_huobi_datas->tick->data[0]->price : "暂不支持" ?></td>
-                                    <td rowspan="2">$ <?= $usdt_huobi_datas->status == "ok"?abs($usdt_huobi_datas->tick->data[0]->price - $usdt_gateio_datas['last']):'' ?></td>
-                                </tr>
-                                <tr>
-                                    <td>GateIo交易平台最新值【<?= $title ?> / USDT 】 </td>
-                                    <td>$ <?= $usdt_gateio_datas['result'] == 'true' ? $usdt_gateio_datas['last']:'暂不支持' ?></td>
-                                </tr>
-                            </table>
-
-                            <!--
-                            <pre>
-                                <?= var_dump($usdt_huobi_datas)?>
-                            </pre>
-                            <pre>
-                                <?= var_dump($usdt_gateio_datas)?>
-                            </pre>-->
-                        </div>
-
-                        <div class="tab-pane fade" id="BTC">
-
-                            <table  class="table">
-                                <tr>
-                                    <td>火币交易平台最新值【<?= $title ?> / BTC 】 </td>
-                                    <td><?= $btc_huobi_datas->status == "ok" ? $btc_huobi_datas->tick->data[0]->price : "暂不支持" ?></td>
-                                    <td rowspan="2"><?= $btc_huobi_datas->status == "ok" ? abs($btc_huobi_datas->tick->data[0]->price - $btc_gateio_datas['last']) :'暂不支持' ?></td>
-                                </tr>
-                                <tr>
-                                    <td>GateIo交易平台最新值【<?= $title ?> / BTC 】 </td>
-                                    <td><?= $btc_gateio_datas['result'] == 'true' ? $btc_gateio_datas['last']:'暂不支持' ?></td>
-                                </tr>
-                            </table>
-
-                            <!--
-                            <pre>
-                                <?= var_dump($btc_huobi_datas)?>
-                            </pre>
-                            <pre>
-                                <?= var_dump($btc_gateio_datas)?>
-                            </pre>-->
-                        </div>
-
-                        <div class="tab-pane fade" id="ETH">
-
-                            <table  class="table">
-                                <tr>
-                                    <td>火币交易平台最新值【<?= $title ?> / ETH 】 </td>
-                                    <td><?= $eth_huobi_datas->status == "ok" ? $eth_huobi_datas->tick->data[0]->price : "暂不支持" ?></td>
-                                    <td rowspan="2"><?= $eth_huobi_datas->status == "ok" ? abs($eth_huobi_datas->tick->data[0]->price - $eth_gateio_datas['last']) : "暂不支持" ?></td>
-                                </tr>
-                                <tr>
-                                    <td> GateIo交易平台最新值【<?= $title ?> / ETH 】</td>
-                                    <td> <?= $eth_gateio_datas['result'] == 'true' ? $eth_gateio_datas['last']:'暂不支持' ?> </td>
-                                </tr>
-                            </table>
-
-                            <!--
-                            <pre>
-                                <?= var_dump($eth_huobi_datas)?>
-                            </pre>
-                            <pre>
-                                <?= var_dump($eth_gateio_datas)?>
-                            </pre>-->
-                        </div>
-                    </div>
-                </div>
+                <!--<div class="row">
+                    DDD
+                </div>-->
             </div>
         </div>
     </div>

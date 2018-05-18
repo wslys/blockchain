@@ -6,6 +6,9 @@
  * Time: 下午3:11
  * api/v1/depth
  * v3/ticker/price
+ *
+ * 官网  : https://www.binance.com/
+ * API  : https://github.com/binance-exchange/binance-official-api-docs
  */
 
 class Binance {
