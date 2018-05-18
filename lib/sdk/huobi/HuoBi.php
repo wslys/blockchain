@@ -15,6 +15,7 @@ class HuoBi {
         $this->ACCESS_KEY = $ACCESS_KEY;
         $this->SECRET_KEY = $SECRET_KEY;
     }
+
     /**
      * 行情类API
      */

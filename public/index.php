@@ -11,56 +11,58 @@ $usdt_rows = $db->query("SELECT * FROM sort_table WHERE pair='USDT' ORDER BY per
 $btc_arr  = [];
 $eth_arr  = [];
 $usdt_arr = [];
-foreach ($btc_rows as $btc_row) {
-    if (!isset($btc_arr[$btc_row['bi_name']])) {
-        $btc_arr[$btc_row['bi_name']] = [];
-    }
+formatIcon($btc_rows, $btc_arr);
+formatIcon($eth_rows, $eth_arr);
+formatIcon($usdt_rows, $usdt_arr);
 
-    array_push($btc_arr[$btc_row['bi_name']],[
-        "bi_name" => $btc_row['bi_name'],
-        "tag_id"  => $btc_row['tag_id'],
-        "huobi_price"  => $btc_row['huobi_price'],
-        "gateio_price" => $btc_row['gateio_price'],
-        "pair" => $btc_row['pair'],
-        "percentage" => $btc_row['percentage'],
-        "percentage_pri" => $btc_row['percentage_pri'],
-        "create_at" => $btc_row['create_at'],
-    ]);
-}
-
-foreach ($eth_rows as $eth_row) {
-    if (!isset($eth_arr[$eth_row['bi_name']])) {
-        $eth_arr[$eth_row['bi_name']] = [];
-    }
-
-    array_push($eth_arr[$eth_row['bi_name']],[
-        "bi_name" => $eth_row['bi_name'],
-        "tag_id" => $eth_row['tag_id'],
-        "huobi_price" => $eth_row['huobi_price'],
-        "gateio_price" => $eth_row['gateio_price'],
-        "pair" => $eth_row['pair'],
-        "percentage" => $eth_row['percentage'],
-        "percentage_pri" => $eth_row['percentage_pri'],
-        "create_at" => $eth_row['create_at'],
-    ]);
-}
-
-foreach ($usdt_rows as $usdt_row) {
-    if (!isset($usdt_arr[$usdt_row['bi_name']])) {
-        $usdt_arr[$usdt_row['bi_name']] = [];
-    }
-
-    array_push($usdt_arr[$usdt_row['bi_name']],[
-        "bi_name" => $usdt_row['bi_name'],
-        "tag_id" => $usdt_row['tag_id'],
-        "huobi_price" => $usdt_row['huobi_price'],
-        "gateio_price" => $usdt_row['gateio_price'],
-        "pair" => $usdt_row['pair'],
-        "percentage" => $usdt_row['percentage'],
-        "percentage_pri" => $usdt_row['percentage_pri'],
-        "create_at" => $usdt_row['create_at'],
-    ]);
-}
+//foreach ($btc_rows as $btc_row) {
+//    if (!isset($btc_arr[$btc_row['bi_name']])) {
+//        $btc_arr[$btc_row['bi_name']] = [];
+//    }
+//
+//    array_push($btc_arr[$btc_row['bi_name']],[
+//        "bi_name" => $btc_row['bi_name'],
+//        "tag_id"  => $btc_row['tag_id'],
+//        "huobi_price"  => $btc_row['huobi_price'],
+//        "gateio_price" => $btc_row['gateio_price'],
+//        "pair" => $btc_row['pair'],
+//        "percentage" => $btc_row['percentage'],
+//        "percentage_pri" => $btc_row['percentage_pri'],
+//        "create_at" => $btc_row['create_at'],
+//    ]);
+//}
+//foreach ($eth_rows as $eth_row) {
+//    if (!isset($eth_arr[$eth_row['bi_name']])) {
+//        $eth_arr[$eth_row['bi_name']] = [];
+//    }
+//
+//    array_push($eth_arr[$eth_row['bi_name']],[
+//        "bi_name" => $eth_row['bi_name'],
+//        "tag_id" => $eth_row['tag_id'],
+//        "huobi_price" => $eth_row['huobi_price'],
+//        "gateio_price" => $eth_row['gateio_price'],
+//        "pair" => $eth_row['pair'],
+//        "percentage" => $eth_row['percentage'],
+//        "percentage_pri" => $eth_row['percentage_pri'],
+//        "create_at" => $eth_row['create_at'],
+//    ]);
+//}
+//foreach ($usdt_rows as $usdt_row) {
+//    if (!isset($usdt_arr[$usdt_row['bi_name']])) {
+//        $usdt_arr[$usdt_row['bi_name']] = [];
+//    }
+//
+//    array_push($usdt_arr[$usdt_row['bi_name']],[
+//        "bi_name" => $usdt_row['bi_name'],
+//        "tag_id" => $usdt_row['tag_id'],
+//        "huobi_price" => $usdt_row['huobi_price'],
+//        "gateio_price" => $usdt_row['gateio_price'],
+//        "pair" => $usdt_row['pair'],
+//        "percentage" => $usdt_row['percentage'],
+//        "percentage_pri" => $usdt_row['percentage_pri'],
+//        "create_at" => $usdt_row['create_at'],
+//    ]);
+//}
 
 $btc_list = [];
 $eth_list = [];
@@ -85,7 +87,6 @@ foreach ($btc_arr as $key => $btc_row) {
 
     $btc_list[$key]['average'] = round(($val / $count),4);
 }
-
 foreach ($eth_arr as $key => $btc_row) {
     $eth_list[$key] = [];
 
@@ -106,7 +107,6 @@ foreach ($eth_arr as $key => $btc_row) {
 
     $eth_list[$key]['average'] = round(($val / $count),4);
 }
-
 foreach ($usdt_arr as $key => $btc_row) {
     $usdt_list[$key] = [];
 
@@ -128,9 +128,18 @@ foreach ($usdt_arr as $key => $btc_row) {
     $usdt_list[$key]['average'] = round(($val / $count),4);
 }
 
-$btc_list  = func_sort($btc_list,'average',SORT_DESC,SORT_STRING);
-$eth_list  = func_sort($eth_list,'average',SORT_DESC,SORT_STRING);
-$usdt_list = func_sort($usdt_list,'average',SORT_DESC,SORT_STRING);
+$btc_list_data  = coinIncrease($btc_arr);
+$eth_list_data  = coinIncrease($eth_arr);
+$usdt_list_data = coinIncrease($usdt_arr);
+
+$lables = [
+    "type12" => ["type" => 'type12',"lble" => '火币平台 --- GateIO平台',      "pt1" => '火币平台', "pt2"=>"GateIO平台"],
+    "type13" => ["type" => 'type13',"lble" => '火币平台 --- Binance平台',     "pt1" => '火币平台', "pt2"=>"Binance平台"],
+    "type14" => ["type" => 'type14',"lble" => '火币平台 --- Bittrex平台',     "pt1" => '火币平台', "pt2"=>"Bittrex平台"],
+    "type23" => ["type" => 'type23',"lble" => 'GateIO平台 ---- Binance平台', "pt1" => 'GateIO平台', "pt2"=>"Binance平台"],
+    "type24" => ["type" => 'type24',"lble" => 'GateIO平台 ---- Bittrex平台', "pt1" => 'GateIO平台', "pt2"=>"Bittrex平台"],
+    "type34" => ["type" => 'type34',"lble" => 'Binance平台 ---- Bittrex平台',"pt1" => 'Binance平台', "pt2"=>"Bittrex平台"],
+];
 ?>
 
 <!DOCTYPE html>
@@ -175,7 +184,7 @@ $usdt_list = func_sort($usdt_list,'average',SORT_DESC,SORT_STRING);
                 <a class="navbar-brand" href="#"><img src="test/logo.png" class="img-responsive"></a>
             </div>
 
-            <!--<div class="collapse navbar-collapse text-center" id="bs-example-navbar-collapse-1">
+            <div class="collapse navbar-collapse text-center" id="bs-example-navbar-collapse-1">
                 <ul class="nav">
                     <li><a href="#solution" class="page-scroll">首页</a></li>
                     <li><a href="#how_it_works" class="page-scroll">Title</a></li>
@@ -185,7 +194,7 @@ $usdt_list = func_sort($usdt_list,'average',SORT_DESC,SORT_STRING);
 
                     <a href="#register" class="btn btn-sm start-trial">sign up for free</a>
                 </ul>
-            </div>-->
+            </div>
         </div>
     </nav>-->
 </header>
@@ -205,77 +214,119 @@ $usdt_list = func_sort($usdt_list,'average',SORT_DESC,SORT_STRING);
                     </ul>
                     <div id="myTabContent" class="tab-content">
                         <div class="tab-pane fade in active" id="BTC"><br/><br/>
-                            <table class="table">
-                                <thead>
-                                <th style="text-align: center">币名</th>
-                                <th style="text-align: center">对币</th>
-                                <th style="text-align: center">火币平台</th>
-                                <th style="text-align: center">GateIO平台</th>
-                                <th style="text-align: center">涨幅波动比</th>
-                                </thead>
-                                <tbody>
-                                <?php foreach ($btc_list as $item) { ?>
-                                    <tr>
-                                        <!--<td><pre><?= var_dump($item)?></pre></td>-->
-                                        <td><a href="detail.php?name=<?= $item['bi_name'] ?>"><?= $item['bi_name'] ?></a></td>
-                                        <td><?= $item['pair'] ?></td>
-                                        <td><?= $item['huobi_price'] ?  $item['huobi_price'] : '此平台暂不支持此币种' ?></td>
-                                        <td><?= $item['gateio_price'] ? $item['gateio_price'] : '此平台暂不支持此币种' ?></td>
-                                        <td><?= $item['average'] ?> % </td>
-                                    </tr>
-                                <?php }?>
-                                </tbody>
-                            </table>
+                            <div class="panel-group" id="accordion">
+                                <?php $BTCi=1;foreach ($btc_list_data as $key=>$item_arr) { ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" style="text-align: left;">
+                                            <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#<?= 'BTC' . $lables[$key]['type'] ?>"><?= $lables[$key]['lble']?></a></h4>
+                                        </div>
+                                        <div id="<?= 'BTC' . $lables[$key]['type']?>" class="<?= $BTCi==1?'panel-collapse collapse in':'panel-collapse collapse' ?>">
+                                            <div class="panel-body" style="max-height: 480px;overflow:auto;">
+                                                <table class="table">
+                                                    <thead>
+                                                    <th style="text-align: center">币名</th>
+                                                    <th style="text-align: center">对币</th>
+                                                    <th style="text-align: center"><?= $lables[$key]['pt1']?></th>
+                                                    <th style="text-align: center"><?= $lables[$key]['pt2']?></th>
+                                                    <th style="text-align: center">涨幅波动比</th>
+                                                    </thead>
+                                                    <tbody>
+                                                    <?php foreach ($item_arr as $item) { ?>
+                                                        <tr>
+                                                            <td><a href="detail.php?name=<?= $item['bi_name'] ?>&type=<?= 'BTC_' . $lables[$key]['type'] ?>"><?= $item['bi_name'] ?></a></td>
+                                                            <td><?= $item['pair'] ?></td>
+                                                            <td><?= $item['price1'] ? $item['price1'] : '此平台暂不支持此币种' ?></td>
+                                                            <td><?= $item['price2'] ? $item['price2'] : '此平台暂不支持此币种' ?></td>
+                                                            <td><?= $item['average'] ?> % </td>
+                                                        </tr>
+                                                    <?php }?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php $BTCi ++;} ?>
+
+                            </div>
 
                         </div>
-                        <div class="tab-pane fade" id="USDT"><br/><br/>
-                            <table class="table">
-                                <thead>
-                                <th style="text-align: center">币名</th>
-                                <th style="text-align: center">对币</th>
-                                <th style="text-align: center">火币平台</th>
-                                <th style="text-align: center">GateIO平台</th>
-                                <th style="text-align: center">涨幅波动比</th>
-                                </thead>
-                                <tbody>
-                                <?php foreach ($usdt_list as $item) { ?>
-                                    <tr>
-                                        <!--<td><pre><?= var_dump($item)?></pre></td>-->
-                                        <td><a href="detail.php?name=<?= $item['bi_name'] ?>"><?= $item['bi_name'] ?></a></td>
-                                        <td><?= $item['pair'] ?></td>
-                                        <td><?= $item['huobi_price'] ?  $item['huobi_price'] : '此平台暂不支持此币种' ?></td>
-                                        <td><?= $item['gateio_price'] ? $item['gateio_price'] : '此平台暂不支持此币种' ?></td>
-                                        <td><?= $item['average'] ?> % </td>
-                                    </tr>
-                                <?php }?>
-                                </tbody>
-                            </table>
+
+                        <div class="tab-pane fade in " id="USDT"><br/><br/>
+                            <div class="panel-group" id="accordion">
+                                <?php $USDTi2=1;foreach ($usdt_list_data as $key=>$item_arr) {?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" style="text-align: left;">
+                                            <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#<?= 'USDT' . $lables[$key]['type'] ?>"><?= $lables[$key]['lble']?></a></h4>
+                                        </div>
+                                        <div id="<?= 'USDT' . $lables[$key]['type']?>" class="<?= $USDTi2==1?'panel-collapse collapse in':'panel-collapse collapse' ?>">
+                                            <div class="panel-body" style="max-height: 360px;overflow:auto;">
+                                                <table class="table">
+                                                    <thead>
+                                                    <th style="text-align: center">币名</th>
+                                                    <th style="text-align: center">对币</th>
+                                                    <th style="text-align: center"><?= $lables[$key]['pt1']?></th>
+                                                    <th style="text-align: center"><?= $lables[$key]['pt2']?></th>
+                                                    <th style="text-align: center">涨幅波动比</th>
+                                                    </thead>
+                                                    <tbody>
+                                                    <?php foreach ($item_arr as $item) { ?>
+                                                        <tr>
+                                                            <td><a href="detail.php?name=<?= $item['bi_name'] ?>&type=<?= 'USDT_' . $lables[$key]['type'] ?>"><?= $item['bi_name'] ?></a></td>
+                                                            <td><?= $item['pair'] ?></td>
+                                                            <td><?= $item['price1'] ? $item['price1'] : '此平台暂不支持此币种' ?></td>
+                                                            <td><?= $item['price2'] ? $item['price2'] : '此平台暂不支持此币种' ?></td>
+                                                            <td><?= $item['average'] ?> % </td>
+                                                        </tr>
+                                                    <?php }?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php $USDTi2++;} ?>
+
+                            </div>
+
                         </div>
-                        <div class="tab-pane fade" id="ETH"><br/><br/>
-                            <table class="table">
-                                <thead>
-                                <th style="text-align: center">币名</th>
-                                <th style="text-align: center">对币</th>
-                                <th style="text-align: center">火币平台</th>
-                                <th style="text-align: center">GateIO平台</th>
-                                <th style="text-align: center">涨幅波动比</th>
-                                </thead>
-                                <tbody>
-                                <?php foreach ($eth_list as $item) { ?>
-                                    <tr>
-                                        <!--<td><pre><?= var_dump($item)?></pre></td>-->
-                                        <td><a href="detail.php?name=<?= $item['bi_name'] ?>"><?= $item['bi_name'] ?></a></td>
-                                        <td><?= $item['pair'] ?></td>
-                                        <td><?= $item['huobi_price'] ?  $item['huobi_price'] : '此平台暂不支持此币种' ?></td>
-                                        <td><?= $item['gateio_price'] ? $item['gateio_price'] : '此平台暂不支持此币种' ?></td>
-                                        <td><?= $item['average'] ?> % </td>
-                                    </tr>
-                                <?php }?>
-                                </tbody>
-                            </table>
+
+                        <div class="tab-pane fade in " id="ETH"><br/><br/>
+                            <div class="panel-group" id="accordion">
+                                <?php $ETHi3=1;foreach ($eth_list_data as $key=>$item_arr) {?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" style="text-align: left;">
+                                            <h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#<?= 'ETH' . $lables[$key]['type'] ?>"><?= $lables[$key]['lble']?></a></h4>
+                                        </div>
+                                        <div id="<?= 'ETH' . $lables[$key]['type']?>" class="<?= $ETHi3==1?'panel-collapse collapse in':'panel-collapse collapse' ?>">
+                                            <div class="panel-body" style="max-height: 360px;overflow:auto;">
+                                                <table class="table">
+                                                    <thead>
+                                                    <th style="text-align: center">币名</th>
+                                                    <th style="text-align: center">对币</th>
+                                                    <th style="text-align: center"><?= $lables[$key]['pt1']?></th>
+                                                    <th style="text-align: center"><?= $lables[$key]['pt2']?></th>
+                                                    <th style="text-align: center">涨幅波动比</th>
+                                                    </thead>
+                                                    <tbody>
+                                                    <?php foreach ($item_arr as $item) { ?>
+                                                        <tr>
+                                                            <td><a href="detail.php?name=<?= $item['bi_name'] ?>&type=<?= 'ETH_' . $lables[$key]['type'] ?>"><?= $item['bi_name'] ?></a></td>
+                                                            <td><?= $item['pair'] ?></td>
+                                                            <td><?= $item['price1'] ? $item['price1'] : '此平台暂不支持此币种' ?></td>
+                                                            <td><?= $item['price2'] ? $item['price2'] : '此平台暂不支持此币种' ?></td>
+                                                            <td><?= $item['average'] ?> % </td>
+                                                        </tr>
+                                                    <?php }?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php $ETHi3++;} ?>
+
+                            </div>
+
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
