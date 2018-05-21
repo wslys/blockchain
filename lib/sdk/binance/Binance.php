@@ -16,15 +16,27 @@ class Binance {
 
     public function __construct() {}
 
-    public function getPrice() {
+    public function getPrice($symbol) {
         $url = $this->basic . "/api/v3/ticker/price";
+
+        if (isset($symbol))
+            $url .= "?symbol=" . $symbol;
 
         $return = $this->curl($url);
         $result = json_decode($return, true);
         return $result;
     }
 
-    public function getDepth($symbol, $limit=100) {
+    //1m,3m,5m,15m,30m,1h,2h,4h,6h,8h,12h,1d,3d,1w,1M
+    public function getKlines($symbol, $interval = "5m", $limit = 1) {
+        $url = $this->basic . "/api/v1/klines?symbol=".$symbol."&interval=".$interval.'&limit='.$limit;
+
+        $return = $this->curl($url);
+        $result = json_decode($return, true);
+        return $result;
+    }
+
+    public function getDepth($symbol, $limit=20) {
         if (!$symbol) {
             return "没有参数symbol";
         }

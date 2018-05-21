@@ -31,7 +31,7 @@ $tag_time  = $tags['id'];
 
 $HuoBi   = new HuoBi($conf['huobi']['ACCESS_KEY'], $conf['huobi']['SECRET_KEY']);
 $GateIO  = new GateIO($conf['gateio']['ACCESS_KEY'], $conf['gateio']['SECRET_KEY']);
-$Binance = new Binance\API($conf['Binance']['ACCESS_KEY'], $conf['Binance']['SECRET_KEY']);
+$Binance = new Binance\API($conf['binance']['ACCESS_KEY'], $conf['binance']['SECRET_KEY']);
 $OKCoin  = new OKCoin(new OKCoin_ApiKeyAuthentication($conf['okex']['API_KEY'], $conf['okex']['SECRET_KEY']));
 $Bittrex = new Bittrex();
 

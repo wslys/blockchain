@@ -11,51 +11,67 @@
 define("ROOT_DIR", __DIR__ . "/../");
 define('ACCOUNT_ID', ''); // 你的账户ID
 
-include "../lib/sdk/binance/Binance.php";
+//include "../vendor/autoload.php";
+include "../lib/sdk/gateio/GateIO.php";
 include "../lib/sdk/huobi/HuoBi.php";
 include '../lib/sdk/okex/OKCoin/OKCoin.php';
-
+include "../lib/sdk/bittrex/Bittrex.php";
+include "../lib/sdk/binance/Binance.php";
 
 include "../lib/EasyDB/basic_db.php";
 include "../lib/func/func.php";
 include "../conf/conf.php";
 
-// TODO Binance
-$Binance2 = new Binance();
-//
-//$prices = $Binance2->getPrice();
-//$kt = 0;
-//foreach ($prices as $price) {
-//    $depth = $Binance2->getDepth($price['symbol'], 1000);
-//    echo $kt . " :>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> \n";
-//    echo $kt . " :>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> \n";
-//    echo $kt . " :>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> \n";
-//    var_dump(count($depth['bids']));
-//    var_dump(count($depth['asks']));
-//
-//    if ($kt > 10) {
-//        break;
-//    }
-//    $kt ++ ;
-//}
+include "tuto/binance.php";
+include "tuto/bittrex.php";
+include "tuto/gateio.php";
+include "tuto/huobi.php";
+
+$name = isset($_GET['name'])?$_GET['name']:'';
+$type = isset($_GET['type'])?$_GET['type']:'btc_usdt';
+$type_arr = explode('_', $type);
+$pair = $type_arr[0];
+$type = $type_arr[1];
+
+/* TODO Binance */
+/*$Binance = new Binance();
+// 获取Kline
+$binance_kline = $Binance->getKlines('ETHBTC', '5m', '1');
+$binance_depth = $Binance->getDepth('ETHBTC', 20);
+var_dump($binance_kline);
+var_dump($binance_depth);*/
 
 
-// TODO HuoBi
+/* TODO HuoBi */
 $HuoBi = new HuoBi();
-// 火币K线数据
+/*// 火币K线数据
 $huobi_kline = $HuoBi->get_history_kline('btcusdt', '1min', '1');
 // 火币聚合行情
-$huobi_depth = $HuoBi->get_market_depth('btcusdt', 'step1');
-print_r($huobi_depth);
+$huobi_depth = $HuoBi->get_market_depth('btcusdt', 'step1');*/
+
+/* TODO Okex */
+$OKCoin = new OKCoin(new OKCoin_ApiKeyAuthentication($conf['okex']['API_KEY'], $conf['okex']['SECRET_KEY']));
+//获取OKCoin k线数据
+$OKex_kline = $OKCoin->depthApi(array('symbol' => 'eth_btc'));
+//获取OKCoin期货深度信息 contract_type
+//$OKex_depth = $OKCoin -> depthFutureApi(array('symbol' => 'btc_usd', 'contract_type' => 'this_week', 'size' => 5, 'merge'=>1));
+var_dump($OKex_kline);
+
+/* TODO Bittrex 暂时 API 不好使 */
+/*$Bittrex = new Bittrex();
+// 获取价格数据
+$bittrex_price = $Bittrex->getticker('BTC-LTC');
+// 获取 Depth 数据
+$bittrex_kline = $Bittrex->getorderbookDepth('BTC-LTC');
+print_r($bittrex_kline);*/
 
 
-//$OKCoin = new OKCoin(new OKCoin_ApiKeyAuthentication($conf['okex']['API_KEY'], $conf['okex']['SECRET_KEY']));
-////获取OKCoin市场深度
-//$params = array('symbol' => 'btc_usd');
-//$result = $OKCoin -> depthApi($params);
-//print_r($result);
+/* TODO GateIO */
+//$GateIO = new GateIO($conf['gateio']['ACCESS_KEY'], $conf['gateio']['SECRET_KEY']);
 
-//获取OKCoin期货深度信息
-//$params = array('symbol' => 'btc_usd', 'contract_type' => 'this_week', 'size' => 5);
-//$result = $OKCoin -> depthFutureApi($params);
-//print_r($result);
+//交易对的市场深度
+//    print_r(get_orderbooks());
+
+//指定交易对的市场深度
+//    print_r(get_orderbook('btc_usdt'));
+

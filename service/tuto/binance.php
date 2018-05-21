@@ -75,7 +75,7 @@ function runBinance($Binance, $tag, $db, &$data) {
     }
 
     $sql = rtrim($sql, ",");
-    echo $sql . "\n";
+    //echo $sql . "\n";
     $db->querySql($sql);
 }
 

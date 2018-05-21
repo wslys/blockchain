@@ -7,8 +7,9 @@
  * API : https://github.com/huobiapi/API_Docs_en/wiki
  */
 class HuoBi {
-    // private $api = 'api.huobi.pro';
-    private $api = 'api.huobi.br.com';
+    // private $api = 'api.huobi.pro'; // 境外
+    // private $api = 'api.huobipro.com'; // 境内服务器
+    private $api = 'api.huobi.br.com'; // 调试
     private $ACCESS_KEY = '';
     private $SECRET_KEY = '';
     public $api_method = '';

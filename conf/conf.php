@@ -24,3 +24,8 @@ $conf = [
         "SECRET_KEY" => 'BD67A37972581615EEDFD145A0304AE9'
     ]
 ];
+
+// accounts 账户表
+// actions  资源表
+// groups   权限组表
+// authority_db

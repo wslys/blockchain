@@ -28,26 +28,26 @@ if (version_compare(phpversion(), '7.0', '<=')) {
  */
 class API
 {
-    protected $base = 'https://api.binance.com/api/'; // /< REST endpoint for the currency exchange
-    protected $wapi = 'https://api.binance.com/wapi/'; // /< REST endpoint for the withdrawals
-    protected $stream = 'wss://stream.binance.com:9443/ws/'; // /< Endpoint for establishing websocket connections
+    protected $base        = 'https://api.binance.com/api/'; // /< REST endpoint for the currency exchange
+    protected $wapi        = 'https://api.binance.com/wapi/'; // /< REST endpoint for the withdrawals
+    protected $stream      = 'wss://stream.binance.com:9443/ws/'; // /< Endpoint for establishing websocket connections
     protected $api_key; // /< API key that you created in the binance website member area
     protected $api_secret; // /< API secret that was given to you when you created the api key
-    protected $depthCache = []; // /< Websockets depth cache
-    protected $depthQueue = []; // /< Websockets depth queue
-    protected $chartQueue = []; // /< Websockets chart queue
-    protected $charts = []; // /< Websockets chart data
-    protected $curlOpts = []; // /< User defined curl coptions
-    protected $info = [
+    protected $depthCache  = []; // /< Websockets depth cache
+    protected $depthQueue  = []; // /< Websockets depth queue
+    protected $chartQueue  = []; // /< Websockets chart queue
+    protected $charts      = []; // /< Websockets chart data
+    protected $curlOpts    = []; // /< User defined curl coptions
+    protected $info        = [
         "timeOffset" => 0,
     ]; // /< Additional connection options
-    protected $proxyConf = null; // /< Used for story the proxy configuration
-    protected $transfered = 0; // /< This stores the amount of bytes transfered
-    protected $requestCount = 0; // /< This stores the amount of API requests
-    private $httpDebug = false; // /< If you enable this, curl will output debugging information
+    protected $proxyConf   = null; // /< Used for story the proxy configuration
+    protected $transfered  = 0; // /< This stores the amount of bytes transfered
+    protected $requestCount= 0; // /< This stores the amount of API requests
+    private $httpDebug     = false; // /< If you enable this, curl will output debugging information
     private $subscriptions = []; // /< View all websocket subscriptions
-    private $btc_value = 0.00; // /< value of available assets
-    private $btc_total = 0.00;
+    private $btc_value     = 0.00; // /< value of available assets
+    private $btc_total     = 0.00;
 
     // /< value of available onOrder assets
 

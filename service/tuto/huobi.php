@@ -57,6 +57,6 @@ function runHuobi($HuoBi, $tag, $db, &$data) {
 //        $kt ++;
     }
     $sql = rtrim($sql, ",");
-    echo $sql . "\n";
+    // echo $sql . "\n";
     $db->querySql($sql);
 }

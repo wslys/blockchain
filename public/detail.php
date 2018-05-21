@@ -1,44 +1,69 @@
 <?php
 /**
+ * 取市场深度数据
  * Created by PhpStorm.
  * User: user
- * Date: 18-5-15
- * Time: 下午12:30
+ * Date: 18-5-17
+ * Time: 下午2:11
  */
 
+// 定义参数
 define("ROOT_DIR", __DIR__ . "/../");
 define('ACCOUNT_ID', ''); // 你的账户ID
 
-include "../vendor/autoload.php";
+//include "../vendor/autoload.php";
 include "../lib/sdk/gateio/GateIO.php";
 include "../lib/sdk/huobi/HuoBi.php";
 include '../lib/sdk/okex/OKCoin/OKCoin.php';
 include "../lib/sdk/bittrex/Bittrex.php";
+include "../lib/sdk/binance/Binance.php";
 
 include "../lib/EasyDB/basic_db.php";
 include "../lib/func/func.php";
 include "../conf/conf.php";
 
-$name = isset($_GET['name'])?$_GET['name']:'';
-$type = isset($_GET['type'])?$_GET['type']:'';
-$pair = explode('_', $type)[0];
-$type = explode('_', $type)[1];
+/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
+/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
+/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
+$name = isset($_GET['name'])?$_GET['name']:'SBTC';
+$type = isset($_GET['type'])?$_GET['type']:'BTC_type12';
+$type_arr = explode('_', $type);
+$pair = $type_arr[0];
+$type = $type_arr[1];
 
-/*$gate  = new Gate();
-$huobi = new Huobi();*/
+/* Binance 平台 */
+$Binance = new Binance();
+//$Binance = new Binance\API($conf['binance']['ACCESS_KEY'], $conf['binance']['SECRET_KEY']);
+// 获取Kline
+$binance_kline = $Binance->getKlines('ETHBTC', '5m', '1');
+$binance_depth = $Binance->getDepth('ETHBTC', 20);
+var_dump($binance_kline);
+var_dump($binance_depth);
 
-$title = $name;
-$name  = strtolower($name);
+/* HuoBi 平台 */
+$HuoBi = new HuoBi();
+/*$huobi_kline = $HuoBi->get_history_kline('btcusdt', '1min', '1');// 火币K线数据
+$huobi_depth = $HuoBi->get_market_depth('btcusdt', 'step1');// 火币聚合行情*/
 
-/*// 火币数据                  get_market_detail
-$usdt_huobi_datas = $huobi->get_market_trade($name . 'usdt');
-$btc_huobi_datas  = $huobi->get_market_trade($name . 'btc');
-$eth_huobi_datas  = $huobi->get_market_trade($name . 'eth');
+/* TODO Okex */
+/*$OKcoin = new OKCoin(new OKCoin_ApiKeyAuthentication($conf['okex']['API_KEY'], $conf['okex']['SECRET_KEY']));
+$OKex_kline = $OKcoin->depthApi(array('symbol'=>'btc_usd', 'size'=>5));//获取OKCoin k线数据
+$OKex_depth = $OKcoin->depthFutureApi(array('symbol'=>'btc_usd', 'contract_type'=>'this_week', 'size'=>5));//获取OKCoin期货深度信息*/
 
-// GateIO数据
-$usdt_gateio_datas = $gate->get_ticker($name . '_usdt');
-$btc_gateio_datas  = $gate->get_ticker($name . '_btc');
-$eth_gateio_datas  = $gate->get_ticker($name . '_eth');*/
+/* Bittrex 平台 暂时 API 不好使 */
+$Bittrex = new Bittrex();
+/*$bittrex_price = $Bittrex->getticker('BTC-LTC');// 获取价格数据
+$bittrex_kline = $Bittrex->getorderbookDepth('BTC-LTC');// 获取 Depth 数据*/
+
+/* GateIO 平台 */
+$GateIO = new GateIO($conf['gateio']['ACCESS_KEY'], $conf['gateio']['SECRET_KEY']);
+//交易对的市场深度
+/*$gateio_books = $GateIO->get_orderbooks();
+print_r($gateio_books);*/
+
+//指定交易对的市场深度
+//print_r($GateIO->get_orderbook('btc_usdt'));
+
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +74,7 @@ $eth_gateio_datas  = $gate->get_ticker($name . '_eth');*/
 
     <meta name="robots" content="index, follow">
     <!-- title -->
-    <title> <?= $title ?> 当下行情 </title>
+    <title> <?= strtoupper($name) ?> 当下行情 </title>
 
     <meta property="og:description" content="">
 
