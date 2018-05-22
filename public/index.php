@@ -2,11 +2,12 @@
 define("ROOT_DIR", __DIR__ . "/../");
 include "../lib/EasyDB/basic_db.php";
 include "../lib/func/func.php";
+include "../conf/conf.php";
 
 $tags      = $db->query("SELECT * FROM tags WHERE date(create_at) = curdate()")->fetchAll();
-$btc_rows  = $db->query("SELECT * FROM sort_table WHERE pair='BTC' ORDER BY percentage_pri DESC")->fetchAll();
-$eth_rows  = $db->query("SELECT * FROM sort_table WHERE pair='ETH' ORDER BY percentage_pri DESC")->fetchAll();
-$usdt_rows = $db->query("SELECT * FROM sort_table WHERE pair='USDT' ORDER BY percentage_pri DESC")->fetchAll();
+$btc_rows  = $db->query("SELECT * FROM sort_table WHERE TO_DAYS(create_at)=TO_DAYS(NOW()) AND pair='BTC'  ORDER BY `percentage_pri` DESC")->fetchAll();
+$eth_rows  = $db->query("SELECT * FROM sort_table WHERE TO_DAYS(create_at)=TO_DAYS(NOW()) AND pair='ETH'  ORDER BY `percentage_pri` DESC")->fetchAll();
+$usdt_rows = $db->query("SELECT * FROM sort_table WHERE TO_DAYS(create_at)=TO_DAYS(NOW()) AND pair='USDT' ORDER BY `percentage_pri` DESC")->fetchAll();
 
 $btc_arr  = [];
 $eth_arr  = [];
@@ -132,14 +133,7 @@ $btc_list_data  = coinIncrease($btc_arr);
 $eth_list_data  = coinIncrease($eth_arr);
 $usdt_list_data = coinIncrease($usdt_arr);
 
-$lables = [
-    "type12" => ["type" => 'type12',"lble" => '火币平台 --- GateIO平台',      "pt1" => '火币平台', "pt2"=>"GateIO平台"],
-    "type13" => ["type" => 'type13',"lble" => '火币平台 --- Binance平台',     "pt1" => '火币平台', "pt2"=>"Binance平台"],
-    "type14" => ["type" => 'type14',"lble" => '火币平台 --- Bittrex平台',     "pt1" => '火币平台', "pt2"=>"Bittrex平台"],
-    "type23" => ["type" => 'type23',"lble" => 'GateIO平台 ---- Binance平台', "pt1" => 'GateIO平台', "pt2"=>"Binance平台"],
-    "type24" => ["type" => 'type24',"lble" => 'GateIO平台 ---- Bittrex平台', "pt1" => 'GateIO平台', "pt2"=>"Bittrex平台"],
-    "type34" => ["type" => 'type34',"lble" => 'Binance平台 ---- Bittrex平台',"pt1" => 'Binance平台', "pt2"=>"Bittrex平台"],
-];
+$lables = $conf['lables'];
 ?>
 
 <!DOCTYPE html>

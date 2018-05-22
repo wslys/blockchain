@@ -45,17 +45,19 @@ var_dump($binance_depth);*/
 /* TODO HuoBi */
 $HuoBi = new HuoBi();
 /*// 火币K线数据
-$huobi_kline = $HuoBi->get_history_kline('btcusdt', '1min', '1');
+$huobi_kline = $HuoBi->get_history_kline('btcusdt', '1min', '1');*/
 // 火币聚合行情
-$huobi_depth = $HuoBi->get_market_depth('btcusdt', 'step1');*/
+$huobi_depth = $HuoBi->get_market_depth('btcusdt', 'step1');
+//$huobi_depth = $HuoBi->get_detail_merged('btcusdt');
+var_dump($huobi_depth);
 
 /* TODO Okex */
 $OKCoin = new OKCoin(new OKCoin_ApiKeyAuthentication($conf['okex']['API_KEY'], $conf['okex']['SECRET_KEY']));
 //获取OKCoin k线数据
-$OKex_kline = $OKCoin->depthApi(array('symbol' => 'eth_btc'));
+//$OKex_kline = $OKCoin->depthApi(array('symbol' => 'eth_btc'));
 //获取OKCoin期货深度信息 contract_type
 //$OKex_depth = $OKCoin -> depthFutureApi(array('symbol' => 'btc_usd', 'contract_type' => 'this_week', 'size' => 5, 'merge'=>1));
-var_dump($OKex_kline);
+//var_dump($OKex_kline);
 
 /* TODO Bittrex 暂时 API 不好使 */
 /*$Bittrex = new Bittrex();

@@ -22,6 +22,14 @@ $conf = [
     "okex" => [
         "API_KEY" => 'd5eb7d58-ff33-4600-8121-7a26cec4fd9b',
         "SECRET_KEY" => 'BD67A37972581615EEDFD145A0304AE9'
+    ],
+    'lables' => [
+        "type12" => ["type" => 'type12',"lble" => '火币平台 --- GateIO平台',      "pt1" => '火币平台', "pt2"=>"GateIO平台"],
+        "type13" => ["type" => 'type13',"lble" => '火币平台 --- Binance平台',     "pt1" => '火币平台', "pt2"=>"Binance平台"],
+        "type14" => ["type" => 'type14',"lble" => '火币平台 --- Bittrex平台',     "pt1" => '火币平台', "pt2"=>"Bittrex平台"],
+        "type23" => ["type" => 'type23',"lble" => 'GateIO平台 ---- Binance平台', "pt1" => 'GateIO平台', "pt2"=>"Binance平台"],
+        "type24" => ["type" => 'type24',"lble" => 'GateIO平台 ---- Bittrex平台', "pt1" => 'GateIO平台', "pt2"=>"Bittrex平台"],
+        "type34" => ["type" => 'type34',"lble" => 'Binance平台 ---- Bittrex平台',"pt1" => 'Binance平台', "pt2"=>"Bittrex平台"],
     ]
 ];
 
