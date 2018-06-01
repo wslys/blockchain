@@ -4,7 +4,7 @@ include "../lib/EasyDB/basic_db.php";
 include "../lib/func/func.php";
 include "../conf/conf.php";
 
-$tags      = $db->query("SELECT * FROM tags WHERE date(create_at) = curdate()")->fetchAll();
+$tags      = $db->query("SELECT * FROM tags WHERE DATE(create_at)=CURDATE()")->fetchAll();
 $btc_rows  = $db->query("SELECT * FROM sort_table WHERE TO_DAYS(create_at)=TO_DAYS(NOW()) AND pair='BTC'  ORDER BY `percentage_pri` DESC")->fetchAll();
 $eth_rows  = $db->query("SELECT * FROM sort_table WHERE TO_DAYS(create_at)=TO_DAYS(NOW()) AND pair='ETH'  ORDER BY `percentage_pri` DESC")->fetchAll();
 $usdt_rows = $db->query("SELECT * FROM sort_table WHERE TO_DAYS(create_at)=TO_DAYS(NOW()) AND pair='USDT' ORDER BY `percentage_pri` DESC")->fetchAll();
@@ -15,55 +15,6 @@ $usdt_arr = [];
 formatIcon($btc_rows, $btc_arr);
 formatIcon($eth_rows, $eth_arr);
 formatIcon($usdt_rows, $usdt_arr);
-
-//foreach ($btc_rows as $btc_row) {
-//    if (!isset($btc_arr[$btc_row['bi_name']])) {
-//        $btc_arr[$btc_row['bi_name']] = [];
-//    }
-//
-//    array_push($btc_arr[$btc_row['bi_name']],[
-//        "bi_name" => $btc_row['bi_name'],
-//        "tag_id"  => $btc_row['tag_id'],
-//        "huobi_price"  => $btc_row['huobi_price'],
-//        "gateio_price" => $btc_row['gateio_price'],
-//        "pair" => $btc_row['pair'],
-//        "percentage" => $btc_row['percentage'],
-//        "percentage_pri" => $btc_row['percentage_pri'],
-//        "create_at" => $btc_row['create_at'],
-//    ]);
-//}
-//foreach ($eth_rows as $eth_row) {
-//    if (!isset($eth_arr[$eth_row['bi_name']])) {
-//        $eth_arr[$eth_row['bi_name']] = [];
-//    }
-//
-//    array_push($eth_arr[$eth_row['bi_name']],[
-//        "bi_name" => $eth_row['bi_name'],
-//        "tag_id" => $eth_row['tag_id'],
-//        "huobi_price" => $eth_row['huobi_price'],
-//        "gateio_price" => $eth_row['gateio_price'],
-//        "pair" => $eth_row['pair'],
-//        "percentage" => $eth_row['percentage'],
-//        "percentage_pri" => $eth_row['percentage_pri'],
-//        "create_at" => $eth_row['create_at'],
-//    ]);
-//}
-//foreach ($usdt_rows as $usdt_row) {
-//    if (!isset($usdt_arr[$usdt_row['bi_name']])) {
-//        $usdt_arr[$usdt_row['bi_name']] = [];
-//    }
-//
-//    array_push($usdt_arr[$usdt_row['bi_name']],[
-//        "bi_name" => $usdt_row['bi_name'],
-//        "tag_id" => $usdt_row['tag_id'],
-//        "huobi_price" => $usdt_row['huobi_price'],
-//        "gateio_price" => $usdt_row['gateio_price'],
-//        "pair" => $usdt_row['pair'],
-//        "percentage" => $usdt_row['percentage'],
-//        "percentage_pri" => $usdt_row['percentage_pri'],
-//        "create_at" => $usdt_row['create_at'],
-//    ]);
-//}
 
 $btc_list = [];
 $eth_list = [];

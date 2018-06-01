@@ -36,13 +36,28 @@ $type = $type_arr[1];
 $plat1_data = [];
 $plat2_data = [];
 
+//$HuoBi = new HuoBi();
+//$huobi_kline = $HuoBi->get_history_kline('btcusdt', '1min', '1');// 火币K线数据
+//$huobi_depth = $HuoBi->get_market_depth('btcusdt', 'step1');// 火币聚合行情
+//var_dump($huobi_kline);
+//var_dump($huobi_depth);
+
+/* Binance 平台 */
+//$Binance = new Binance();
+//// 获取Kline
+//$binance_kline = $Binance->getKlines('ETHBTC', '5m', '1');
+//$binance_depth = $Binance->getDepth('ETHBTC', 20);
+//var_dump($binance_kline);
+//var_dump($binance_depth);
+
+
 switch ($type) {
-    case 'type12':
-        // 火币平台 --- GateIO平台
+    case 'type12': // 火币平台 --- GateIO平台
         /* HuoBi 平台 */
+        $_pair = strtolower($name.''.$pair);
         $HuoBi = new HuoBi();
-        $huobi_kline = $HuoBi->get_history_kline('btcusdt', '1min', '1');// 火币K线数据
-        $huobi_depth = $HuoBi->get_market_depth('btcusdt', 'step1');// 火币聚合行情
+        $huobi_kline = $HuoBi->get_history_kline($_pair, '1min', '1');// 火币K线数据
+        $huobi_depth = $HuoBi->get_market_depth($_pair, 'step1');// 火币聚合行情
 
         $plat1_data['price'] = $huobi_kline['data'][0]['close'];
         $plat1_data['depth'] = [
@@ -50,7 +65,7 @@ switch ($type) {
                 'bids' => $huobi_depth['tick']['bids'],
         ];
 
-            /* GateIO 平台 */
+        /* GateIO 平台 */
         $pair = strtolower($name . "_" . $pair);
         $GateIO = new GateIO($conf['gateio']['ACCESS_KEY'], $conf['gateio']['SECRET_KEY']);
         //交易对的市场深度
@@ -70,12 +85,18 @@ switch ($type) {
         ];
 
         break;
-    case 'type13':
-        // 火币平台 --- Binance平台
+    case 'type13': // 火币平台 --- Binance平台
         /* HuoBi 平台 */
+        $_pair = strtolower($name.''.$pair);
         $HuoBi = new HuoBi();
-        $huobi_kline = $HuoBi->get_history_kline('btcusdt', '1min', '1');// 火币K线数据
-        $huobi_depth = $HuoBi->get_market_depth('btcusdt', 'step1');// 火币聚合行情
+        $huobi_kline = $HuoBi->get_history_kline($_pair, '1min', '1');// 火币K线数据
+        $huobi_depth = $HuoBi->get_market_depth($_pair, 'step1');// 火币聚合行情
+
+        $plat1_data['price'] = $huobi_kline['data'][0]['close'];
+        $plat1_data['depth'] = [
+            'asks' => $huobi_depth['tick']['asks'],
+            'bids' => $huobi_depth['tick']['bids'],
+        ];
 
         /* Binance 平台 */
         $Binance = new Binance();
@@ -86,12 +107,12 @@ switch ($type) {
         var_dump($binance_depth);
 
         break;
-    case 'type14':
-        // 火币平台 --- Bittrex平台
+    case 'type14': // 火币平台 --- Bittrex平台
         /* HuoBi 平台 */
+        $_pair = strtolower($name.''.$pair);
         $HuoBi = new HuoBi();
-        $huobi_kline = $HuoBi->get_history_kline('btcusdt', '1min', '1');// 火币K线数据
-        $huobi_depth = $HuoBi->get_market_depth('btcusdt', 'step1');// 火币聚合行情
+        $huobi_kline = $HuoBi->get_history_kline($_pair, '1min', '1');// 火币K线数据
+        $huobi_depth = $HuoBi->get_market_depth($_pair, 'step1');// 火币聚合行情
 
         /* Bittrex 平台 暂时 API 不好使 */
         $Bittrex = new Bittrex();
@@ -99,7 +120,31 @@ switch ($type) {
         $bittrex_kline = $Bittrex->getorderbookDepth('BTC-LTC');// 获取 Depth 数据
         break;
     case 'type23':
-        // code
+        /* GateIO 平台 */
+        $pair = strtolower($name . "_" . $pair);
+        $GateIO = new GateIO($conf['gateio']['ACCESS_KEY'], $conf['gateio']['SECRET_KEY']);
+        //交易对的市场深度
+        $gateio_market = $GateIO->get_marketlist();
+        $gateio_books  = $GateIO->get_orderbook($pair);
+
+        foreach ($gateio_market['data'] as $gateio_market) {
+            // pair
+            if ($pair == $gateio_market['pair']) {
+                $plat2_data['price'] = $gateio_market['rate'];
+            }
+        }
+
+        /* Binance 平台 */
+        $Binance = new Binance();
+        // 获取Kline
+        $binance_kline = $Binance->getKlines('ETHBTC', '5m', '1');
+        $binance_depth = $Binance->getDepth('ETHBTC', 20);
+        var_dump($binance_kline);
+        var_dump($binance_depth);
+        $plat2_data['depth'] = [
+            "asks" => $gateio_books['asks'],
+            "bids" => $gateio_books['bids']
+        ];
         break;
     case 'type24':
         // code
@@ -112,8 +157,11 @@ switch ($type) {
         // code
 }
 
-/*var_dump($plat1_data);
-var_dump($plat2_data);*/
+//var_dump($plat1_data);
+//var_dump($plat2_data);
+
+// */1 * * * * php /home/user/www/test.php
+
 
 /* TODO Okex */
 /*$OKcoin = new OKCoin(new OKCoin_ApiKeyAuthentication($conf['okex']['API_KEY'], $conf['okex']['SECRET_KEY']));
@@ -199,7 +247,7 @@ $plat2_data = json_decode($plat2_json);*/
                             <th style="text-align: center;">卖量</th>
                             </thead>
                             <tbody>
-                            <?php foreach ($plat1_data->depth->asks as $ask) { ?>
+                            <?php foreach ($plat1_data['depth']['asks'] as $ask) { ?>
                                 <tr>
                                     <td><?= $ask[0] ?></td>
                                     <td><?= $ask[1] ?></td>
@@ -214,10 +262,10 @@ $plat2_data = json_decode($plat2_json);*/
                             <th style="text-align: center;">买量</th>
                             </thead>
                             <tbody>
-                            <?php foreach ($plat2_data->depth->bids as $ask) { ?>
+                            <?php foreach ($plat1_data['depth']['bids'] as $ask) { ?>
                                 <tr>
-                                    <td><?= $ask[1] ?></td>
                                     <td><?= $ask[0] ?></td>
+                                    <td><?= $ask[1] ?></td>
                                 </tr>
                             <?php }?>
                             </tbody>
@@ -227,13 +275,28 @@ $plat2_data = json_decode($plat2_json);*/
 
                     <div class="col-md-6">
                         <h4><?= $lables[$type]['pt2'] ?></h4>
-                        <table style="border: 0px solid transparent !important;width: 100%">
+                        <table style="border: 0px solid transparent !important;width: 50%;float: left">
                             <thead>
                             <th style="text-align: center;">卖价</th>
                             <th style="text-align: center;">卖量</th>
                             </thead>
                             <tbody>
-                            <?php foreach ($plat1_data->depth->bids as $ask) { ?>
+                            <?php foreach ($plat2_data['depth']['bids'] as $ask) { ?>
+                                <tr>
+                                    <td><?= $ask[0] ?></td>
+                                    <td><?= $ask[1] ?></td>
+                                </tr>
+                            <?php }?>
+                            </tbody>
+                            </tbody>
+                        </table>
+                        <table style="border: 0px solid transparent !important;width: 50%;float: left">
+                            <thead>
+                            <th style="text-align: center;">买价</th>
+                            <th style="text-align: center;">买量</th>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($plat2_data['depth']['bids'] as $ask) { ?>
                                 <tr>
                                     <td><?= $ask[0] ?></td>
                                     <td><?= $ask[1] ?></td>

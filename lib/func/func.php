@@ -25,7 +25,7 @@ function getTags($db) {
  * @param int $sort_type
  * @return bool
  */
-function func_sort($arrays,$sort_key,$sort_order=SORT_ASC,$sort_type=SORT_NUMERIC ){
+function func_sort($arrays, $sort_key, $sort_order=SORT_ASC, $sort_type=SORT_NUMERIC){
     if(is_array($arrays)){
         foreach ($arrays as $array){
             if(is_array($array)){

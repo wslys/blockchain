@@ -19,10 +19,10 @@ include "../lib/EasyDB/basic_db.php";
 include "../lib/func/func.php";
 include "../conf/conf.php";
 
-include "tuto/binance.php";
-include "tuto/bittrex.php";
-include "tuto/gateio.php";
-include "tuto/huobi.php";
+include "./tuto/binance.php";
+include "./tuto/bittrex.php";
+include "./tuto/gateio.php";
+include "./tuto/huobi.php";
 
 //  TODO 标记数据拉取时间
 $tags = getTags($db);

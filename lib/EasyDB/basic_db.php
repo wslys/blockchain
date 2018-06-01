@@ -6,7 +6,7 @@
  * Time: 上午11:26
  */
 
-include ROOT_DIR . "lib/EasyDB/EasyDB.php";
+include "EasyDB.php";
 
 $config = array(
     'host'     => '127.0.0.1',//数据库连接ip,默认本机
