@@ -25,4 +25,4 @@ $select_sql = "SELECT * FROM tags ORDER BY id DESC LIMIT 1;";
 $result = $db->queryOne($select_sql);
 
 $file = "/home/user/php-projects/blockchain/public/file/log-tag.txt";
-file_put_contents($file, date("Y:m:d H:i:s", time()) . ":> time: \n" . $result['id'], FILE_APPEND);
+file_put_contents($file, date("Y:m:d H:i:s", time()) . ":> tag is : " . $result['id']." \n", FILE_APPEND);
