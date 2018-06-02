@@ -10,9 +10,10 @@ function runBittrex($Bittrex, $tag, $db, &$data) {
     echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
     echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  ========Bittrex 交易平台======== >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
     echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n\n\n";
+
+    file_put_contents(FILE, date("Y:m:d H:i:s", time()) . ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  ========Bittrex 交易平台 获取数据开始======== >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n", FILE_APPEND);
     $Bittrex_markets = $Bittrex->getmarkets();
     $bittrex_data = [];
-    $kt = 0;
     foreach ($Bittrex_markets['result'] as $key => $item) {
         $marketName = $item['BaseCurrency'];
         $market = $item['MarketCurrency']. '_' . $marketName;
@@ -29,11 +30,6 @@ function runBittrex($Bittrex, $tag, $db, &$data) {
                 ]
             ];
         }
-        // TODO
-//        if ($kt > 10) {
-//            break;
-//        }
-//        $kt ++;
     }
     $sql = "INSERT INTO counter_currencys(tp_id, tag_id, bi_name, pair, price) VALUES";
     foreach ($bittrex_data as $item) {
@@ -67,4 +63,6 @@ function runBittrex($Bittrex, $tag, $db, &$data) {
     $sql = rtrim($sql, ",");
     //echo $sql . "\n";
     $db->querySql($sql);
+
+    file_put_contents(FILE, date("Y:m:d H:i:s", time()) . ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  ========Bittrex 交易平台 获取数据结束======== >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n", FILE_APPEND);
 }

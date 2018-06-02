@@ -5,6 +5,9 @@
  * Date: 18-5-11
  * Time: 下午3:23
  */
+header("Content-Type: text/plain");
+set_time_limit(0);
+
 // 定义参数
 define("ROOT_DIR", __DIR__ . "/../");
 define('ACCOUNT_ID', ''); // 你的账户ID
@@ -24,6 +27,8 @@ include "./tuto/bittrex.php";
 include "./tuto/gateio.php";
 include "./tuto/huobi.php";
 
+define("FILE", "/home/user/php-projects/blockchain/public/file/log-test ----- ".date('Y-m-d H:i:s', time()).".txt");
+
 //  TODO 标记数据拉取时间
 $tags = getTags($db);
 $tag  = $tags['id'];
@@ -36,7 +41,6 @@ $OKCoin  = new OKCoin(new OKCoin_ApiKeyAuthentication($conf['okex']['API_KEY'], 
 $Bittrex = new Bittrex();
 
 $data = [];
-
 // TODO 火币交易平台
 runHuobi($HuoBi, $tag, $db, $data);
 
@@ -49,9 +53,6 @@ runBinance($Binance, $tag, $db, $data);
 // TODO Bittrex
 runBittrex($Bittrex, $tag, $db, $data);
 
-echo "\n >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>. " . date("Y-m-d H:i:s",time()) . "\n";
-
-
 $sql3 = "INSERT INTO sort_table(tag_id, bi_name, huobi_price, gateio_price, binance_price, bittrex_price, pair, percentage, percentage_pri, create_at) VALUES";
 foreach ($data as $item) {
     $percentage = "";
@@ -63,6 +64,3 @@ foreach ($data as $item) {
 }
 $sql3 = rtrim($sql3, ",");
 $db->querySql($sql3);
-echo '$sql3 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>';
-echo '$sql3 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>' . "\n";
-

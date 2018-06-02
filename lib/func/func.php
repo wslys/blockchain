@@ -8,6 +8,32 @@
 
 
 /*标记数据拉取时间*/
+function getTag($db, $tsp) { // time_stamp
+    $select_sql = "SELECT * FROM tags ORDER BY id DESC LIMIT 1;";
+    $result = $db->queryOne($select_sql);
+
+    if ($result) {
+        $time_stamp = $result['time_stamp'] + (60 * 10);
+        if ($time_stamp > $tsp) {
+            return $result;
+        }
+    }
+
+    $tm = time();
+    $sql = "INSERT INTO tags(create_at, time_stamp) VALUE('".date("Y-m-d H:i:s", $tm)."', $tm)";
+    $db->querySql($sql);
+
+    return $db->queryOne($select_sql);
+}
+
+
+/*标记数据拉取时间*/
+function getTag2($db) { // time_stamp
+    $select_sql = "SELECT * FROM tags ORDER BY id DESC LIMIT 1;";
+    return $db->queryOne($select_sql);;
+}
+
+/*标记数据拉取时间*/
 function getTags($db) {
     //  TODO 标记数据拉取时间
     $sql = "INSERT INTO tags(create_at) VALUE('".date("Y-m-d H:i:s",time())."')";
