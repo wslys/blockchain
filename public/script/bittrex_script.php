@@ -22,6 +22,9 @@ $time_stamp = time();
 $tags = getTag2($db);
 $tag  = $tags['id'];
 
+$file = "/home/user/php-projects/blockchain/public/file/log-bittres.txt";
+file_put_contents($file, date("Y:m:d H:i:s", time()) . ":> tag is : " . $tag ." \n", FILE_APPEND);
+
 $Bittrex = new Bittrex();
 
 $Bittrex_markets = $Bittrex->getmarkets();

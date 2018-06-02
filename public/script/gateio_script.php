@@ -23,6 +23,9 @@ $time_stamp = time();
 $tags = getTag2($db);
 $tag  = $tags['id'];
 
+$file = "/home/user/php-projects/blockchain/public/file/log-gateio.txt";
+file_put_contents($file, date("Y:m:d H:i:s", time()) . ":> tag is : " . $tag ." \n", FILE_APPEND);
+
 $GateIO  = new GateIO($conf['gateio']['ACCESS_KEY'], $conf['gateio']['SECRET_KEY']);
 
 $marketlist = $GateIO->get_marketlist();

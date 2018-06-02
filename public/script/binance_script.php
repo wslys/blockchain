@@ -20,6 +20,9 @@ $time_stamp = time();
 $tags = getTag2($db);
 $tag  = $tags['id'];
 
+$file = "/home/user/php-projects/blockchain/public/file/log-binance.txt";
+file_put_contents($file, date("Y:m:d H:i:s", time()) . ":> tag is : " . $tag ." \n", FILE_APPEND);
+
 $Binance = new Binance\API($conf['binance']['ACCESS_KEY'], $conf['binance']['SECRET_KEY']);
 $prices = $Binance->prices();
 var_dump($prices);
