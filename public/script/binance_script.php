@@ -56,10 +56,10 @@ foreach ($prices as $key => $price) {
         ];
     }
 }
-$sql = "INSERT INTO counter_currencys(tp_id, tag_id, bi_name, pair, price, create_at) VALUES";
+$sql = "INSERT INTO counter_currencys(tp_id, tag_id, bi_name, pair, pair_lable, price, create_at) VALUES";
 foreach ($binance_data as $item) {
     $pair = strtolower(($item['bi_name'] . "_" . $item["pair"]));
-    $sql .= "('3',  '" . $tag . "',  '" . strtoupper($item['bi_name']) . "',  '" . strtoupper($pair) . "',  '" . $item['price'] . "',  " . $time_stamp . "),";
+    $sql .= "('3',  '" . $tag . "',  '" . strtoupper($item['bi_name']) . "',  '" . strtoupper($pair) . "',  '" . strtoupper($item["pair"]) . "',  '" . $item['price'] . "',  " . $time_stamp . "),";
 }
 
 $sql = rtrim($sql, ",");

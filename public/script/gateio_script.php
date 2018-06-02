@@ -26,9 +26,9 @@ $tag  = $tags['id'];
 $GateIO  = new GateIO($conf['gateio']['ACCESS_KEY'], $conf['gateio']['SECRET_KEY']);
 
 $marketlist = $GateIO->get_marketlist();
-$sql = "INSERT INTO counter_currencys(tp_id, tag_id, bi_name, pair, price, create_at) VALUES";
+$sql = "INSERT INTO counter_currencys(tp_id, tag_id, bi_name, pair, pair_lable, price, create_at) VALUES";
 foreach ($marketlist['data'] as $item) {
-    $sql .= "('2',  '" . $tag . "',  '" . strtoupper($item['symbol']) . "',  '" . strtoupper($item["pair"]) . "',  '" . $item['rate'] . "',  " . $time_stamp . "),";
+    $sql .= "('2',  '" . $tag . "',  '" . strtoupper($item['symbol']) . "',  '" . strtoupper($item["pair"]) . "',  '" . strtoupper(explode('_', $item["pair"])[1]) . "',  '" . $item['rate'] . "',  " . $time_stamp . "),";
 }
 $sql = rtrim($sql, ",");
 $db->querySql($sql);

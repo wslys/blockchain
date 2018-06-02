@@ -29,7 +29,7 @@ $HuoBi = new HuoBi($conf['huobi']['ACCESS_KEY'], $conf['huobi']['SECRET_KEY']);
 
 // =============================================================================================
 $symbols = $HuoBi->get_common_symbols();
-$sql = "INSERT INTO counter_currencys(tp_id, tag_id, bi_name, pair, price, create_at) VALUES";
+$sql = "INSERT INTO counter_currencys(tp_id, tag_id, bi_name, pair, pair_lable, price, create_at) VALUES";
 if ($symbols['status'] != 'ok') {
     var_dump($symbols);
     echo "ERROR :>> 货币平台获取 平台所支持的交易币种失败\n";
@@ -43,7 +43,7 @@ foreach ($symbols['data'] as $symbol) {
     $key_line_data = $HuoBi->get_history_kline($symbol_name, '1min', 1);
 
     if ($key_line_data['status'] == 'ok') {
-        $sql .= "('1',   '" . $tag . "',   '" . strtoupper($symbol['base-currency']) . "',   '" . strtoupper(($symbol['base-currency'] . "_" .$symbol["quote-currency"])) . "',   '" . $key_line_data['data'][0]['close'] . "',  " . $time_stamp . "),";
+        $sql .= "('1',   '" . $tag . "',   '" . strtoupper($symbol['base-currency']) . "',   '" . strtoupper(($symbol['base-currency'] . "_" .$symbol["quote-currency"])) . "',   '" . strtoupper($symbol["quote-currency"]) . "',   '" . $key_line_data['data'][0]['close'] . "',  " . $time_stamp . "),";
     }
 }
 $sql = rtrim($sql, ",");
