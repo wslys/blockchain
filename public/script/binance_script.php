@@ -24,8 +24,7 @@ $file = "/home/user/php-projects/blockchain/public/file/log-binance.txt";
 file_put_contents($file, date("Y:m:d H:i:s", time()) . ":> tag is : " . $tag ." \n", FILE_APPEND);
 
 $Binance = new Binance\API($conf['binance']['ACCESS_KEY'], $conf['binance']['SECRET_KEY']);
-$prices = $Binance->prices();
-var_dump($prices);
+$prices  = $Binance->prices();
 
 $binance_data = [];
 foreach ($prices as $key => $price) {
@@ -61,6 +60,7 @@ foreach ($prices as $key => $price) {
 }
 $sql = "INSERT INTO counter_currencys(tp_id, tag_id, bi_name, pair, pair_lable, price, create_at) VALUES";
 foreach ($binance_data as $item) {
+    $time_stamp = time();
     $pair = strtolower(($item['bi_name'] . "_" . $item["pair"]));
     $sql .= "('3',  '" . $tag . "',  '" . strtoupper($item['bi_name']) . "',  '" . strtoupper($pair) . "',  '" . strtoupper($item["pair"]) . "',  '" . $item['price'] . "',  " . $time_stamp . "),";
 }

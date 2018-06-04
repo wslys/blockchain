@@ -26,8 +26,6 @@ $tag  = $tags['id'];
 $file = "/home/user/php-projects/blockchain/public/file/log-huobi.txt";
 file_put_contents($file, date("Y:m:d H:i:s", time()) . ":> tag is : " . $tag ." \n", FILE_APPEND);
 
-define("FILE", "/home/user/php-projects/blockchain/public/file/json_data".$tag.".json");
-
 $HuoBi = new HuoBi($conf['huobi']['ACCESS_KEY'], $conf['huobi']['SECRET_KEY']);
 
 // =============================================================================================
@@ -40,6 +38,7 @@ if ($symbols['status'] != 'ok') {
 }
 
 foreach ($symbols['data'] as $symbol) {
+    $time_stamp = time();
     $symbol_name  = $symbol['base-currency'] . $symbol["quote-currency"];
     $symbol_name2 = $symbol['base-currency'] . "_" . $symbol["quote-currency"];
 

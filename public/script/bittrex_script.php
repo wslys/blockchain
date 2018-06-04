@@ -47,6 +47,7 @@ foreach ($Bittrex_markets['result'] as $key => $item) {
 }
 $sql = "INSERT INTO counter_currencys(tp_id, tag_id, bi_name, pair, pair_lable, price, create_at) VALUES";
 foreach ($bittrex_data as $item) {
+    $time_stamp = time();
     $pair = strtolower(($item['datas']['bi_name'] . "_" . $item['datas']["pair"]));
 
     $sql .= "('4', '".$tag."', '".$item['datas']['bi_name']."', '".strtoupper($pair)."', '".strtoupper($item['datas']["pair"])."', '".$item['datas']['price']."',  " . $time_stamp . "),";

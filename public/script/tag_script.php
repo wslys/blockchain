@@ -11,7 +11,7 @@ $select_sql = "SELECT * FROM tags ORDER BY id DESC LIMIT 1;";
 $result = $db->queryOne($select_sql);
 $tm  = time();
 if ($result) {
-    $time_stamp = $result['time_stamp'] + (60 * 10); // 十分钟
+    $time_stamp = $result['time_stamp'] + (60 * 30); // 十分钟
     if ($time_stamp < $tm) {// 插入一个新的 TAG
         $sql = "INSERT INTO tags(create_at, time_stamp) VALUE('".date("Y-m-d H:i:s", $tm)."', $tm)";
         $db->querySql($sql);

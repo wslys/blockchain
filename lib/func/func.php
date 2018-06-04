@@ -94,6 +94,104 @@ function formatIcon($rows, &$data) {
 }
 
 /**
+ * 格式化币结果列表
+ */
+function formatIcon2($rows) {
+    $data = [];
+    foreach ($rows as $row) {
+        $tag = ('tag_' . $row['tag_id']);
+        if (!isset($data[$tag])) {
+            $data[$tag] = [];
+        }
+
+        if (!isset($data[$tag][$row['bi_name']])) {
+            $data[$tag][$row['bi_name']] = [];
+        }
+
+        $data[$tag][$row['bi_name']]['bi_name']    = $row['bi_name'];
+        $data[$tag][$row['bi_name']]['tag_id']     = $row['tag_id'];
+        $data[$tag][$row['bi_name']]['tp_id']      = $row['tp_id'];
+        $data[$tag][$row['bi_name']]['pair']       = $row['pair'];
+        $data[$tag][$row['bi_name']]['pair_lable'] = $row['pair_lable'];
+        $data[$tag][$row['bi_name']]['create_at']  = $row['create_at'];
+
+        if (!isset($data[$tag][$row['bi_name']]['huobi_price'])) {
+            $data[$tag][$row['bi_name']]['huobi_price']   = '';
+        }
+        if (!isset($data[$tag][$row['bi_name']]['gateio_price'])) {
+            $data[$tag][$row['bi_name']]['gateio_price']  = '';
+        }
+        if (!isset($data[$tag][$row['bi_name']]['binance_price'])) {
+            $data[$tag][$row['bi_name']]['binance_price'] = '';
+        }
+        if (!isset($data[$tag][$row['bi_name']]['bittrex_price'])) {
+            $data[$tag][$row['bi_name']]['bittrex_price'] = '';
+        }
+
+        switch ($row['tp_id']) {
+            case 1:
+                $data[$tag][$row['bi_name']]['huobi_price']   = $row['price'];
+                break;
+            case 2:
+                $data[$tag][$row['bi_name']]['gateio_price']  = $row['price'];
+                break;
+            case 3:
+                $data[$tag][$row['bi_name']]['binance_price'] = $row['price'];
+                break;
+            case 4:
+                $data[$tag][$row['bi_name']]['bittrex_price'] = $row['price'];
+                break;
+        }
+    }
+
+    return $data;
+}
+
+function formatIconCount($rows) {
+    $data = [];
+    $data['count'] = count($rows);
+
+    $data['list']  = [];
+
+    $list = [];
+    foreach ($rows as $key=>$row) {
+        foreach ($row as $bi_name=>$item) {
+            $tp = "tp_".$item['tp_id'];
+            if (!isset($list[$tp])) {
+                $list[$tp] = [];
+            }
+
+            $list[$tp][$bi_name]['bi_name']    = $item['bi_name'];
+            $list[$tp][$bi_name]['tp_id']      = $item['tp_id'];
+            $list[$tp][$bi_name]['pair']       = $item['pair'];
+            $list[$tp][$bi_name]['pair_lable'] = $item['pair_lable'];
+            $list[$tp][$bi_name]['create_at']  = $item['create_at'];
+
+            if (!isset($list[$tp][$bi_name]['huobi_price'])) {
+                $list[$tp][$bi_name]['huobi_price']   = 0;
+            }
+            if (!isset($list[$tp]['gateio_price'])) {
+                $list[$tp][$bi_name]['gateio_price']  = 0;
+            }
+            if (!isset($list[$tp]['binance_price'])) {
+                $list[$tp][$bi_name]['binance_price'] = 0;
+            }
+            if (!isset($list[$tp]['bittrex_price'])) {
+                $list[$tp][$bi_name]['bittrex_price'] = 0;
+            }
+
+            $list[$tp][$bi_name]['huobi_price']   += $item['huobi_price'];
+            $list[$tp][$bi_name]['gateio_price']  += $item['gateio_price'];
+            $list[$tp][$bi_name]['binance_price'] += $item['binance_price'];
+            $list[$tp][$bi_name]['bittrex_price'] += $item['bittrex_price'];
+        }
+    }
+    $data['list'] = $list;
+
+    return $data;
+}
+
+/**
  * @param $rows
  * @return array
  */
