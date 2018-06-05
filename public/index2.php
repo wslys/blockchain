@@ -10,7 +10,7 @@ $end_time   = $stringtime . " 23:59:59";
 $start_time_stamp = strtotime($start_time);
 $end_time_stamp   = strtotime($end_time);
 
-$usdt_sql = "SELECT * FROM counter_currencys WHERE  tag_id IN (SELECT id FROM tags WHERE time_stamp>$start_time_stamp AND time_stamp<$end_time_stamp)  AND pair_lable='USDT'";
+$usdt_sql = "SELECT * FROM counter_currencys WHERE tag_id IN (SELECT id FROM tags WHERE time_stamp>$start_time_stamp AND time_stamp<$end_time_stamp) AND pair_lable='USDT'";
 $btc_rows = $db->query($usdt_sql)->fetchAll();
 
 $usdt_arr = formatIcon2($btc_rows, $btc_arr);

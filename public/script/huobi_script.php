@@ -17,8 +17,7 @@ include "../../lib/EasyDB/basic_db.php";
 include "../../lib/func/func.php";
 include "../../conf/conf.php";
 
-include "./tuto/huobi.php";
-
+sleep(5);
 $time_stamp = time();
 $tags = getTag2($db);
 $tag  = $tags['id'];

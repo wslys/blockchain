@@ -30,7 +30,7 @@ function getTag($db, $tsp) { // time_stamp
 /*标记数据拉取时间*/
 function getTag2($db) { // time_stamp
     $select_sql = "SELECT * FROM tags ORDER BY id DESC LIMIT 1;";
-    return $db->queryOne($select_sql);;
+    return $db->queryOne($select_sql);
 }
 
 /*标记数据拉取时间*/
