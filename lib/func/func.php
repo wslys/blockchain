@@ -116,16 +116,35 @@ function formatIcon2($rows) {
         $data[$tag][$row['bi_name']]['create_at']  = $row['create_at'];
 
         if (!isset($data[$tag][$row['bi_name']]['huobi_price'])) {
-            $data[$tag][$row['bi_name']]['huobi_price']   = '';
+            $data[$tag][$row['bi_name']]['huobi_price']   = 0;
         }
         if (!isset($data[$tag][$row['bi_name']]['gateio_price'])) {
-            $data[$tag][$row['bi_name']]['gateio_price']  = '';
+            $data[$tag][$row['bi_name']]['gateio_price']  = 0;
         }
         if (!isset($data[$tag][$row['bi_name']]['binance_price'])) {
-            $data[$tag][$row['bi_name']]['binance_price'] = '';
+            $data[$tag][$row['bi_name']]['binance_price'] = 0;
         }
         if (!isset($data[$tag][$row['bi_name']]['bittrex_price'])) {
-            $data[$tag][$row['bi_name']]['bittrex_price'] = '';
+            $data[$tag][$row['bi_name']]['bittrex_price'] = 0;
+        }
+
+        if (!isset($data[$tag][$row['bi_name']]['type12'])) {
+            $data[$tag][$row['bi_name']]['type12'] = '平台不支持';
+        }
+        if (!isset($data[$tag][$row['bi_name']]['type13'])) {
+            $data[$tag][$row['bi_name']]['type13'] = '平台不支持';
+        }
+        if (!isset($data[$tag][$row['bi_name']]['type14'])) {
+            $data[$tag][$row['bi_name']]['type14'] = '平台不支持';
+        }
+        if (!isset($data[$tag][$row['bi_name']]['type23'])) {
+            $data[$tag][$row['bi_name']]['type23'] = '平台不支持';
+        }
+        if (!isset($data[$tag][$row['bi_name']]['type24'])) {
+            $data[$tag][$row['bi_name']]['type24'] = '平台不支持';
+        }
+        if (!isset($data[$tag][$row['bi_name']]['type34'])) {
+            $data[$tag][$row['bi_name']]['type34'] = '平台不支持';
         }
 
         switch ($row['tp_id']) {
@@ -136,12 +155,29 @@ function formatIcon2($rows) {
                 $data[$tag][$row['bi_name']]['gateio_price']  = $row['price'];
                 break;
             case 3:
-                $data[$tag][$row['bi_name']]['binance_price'] = $row['price'];
+                $data[$tag][$row['bi_name']]['binance_price']  = $row['price'];
                 break;
             case 4:
-                $data[$tag][$row['bi_name']]['bittrex_price'] = $row['price'];
+                $data[$tag][$row['bi_name']]['bittrex_price']  = $row['price'];
                 break;
         }
+        if ($data[$tag][$row['bi_name']]['huobi_price'] && $data[$tag][$row['bi_name']]['gateio_price'])
+            $data[$tag][$row['bi_name']]['type12'] = abs((($data[$tag][$row['bi_name']]['huobi_price'] - $data[$tag][$row['bi_name']]['gateio_price']) / ($data[$tag][$row['bi_name']]['huobi_price'] + $data[$tag][$row['bi_name']]['gateio_price'])) * 100);
+
+        if ($data[$tag][$row['bi_name']]['huobi_price'] && $data[$tag][$row['bi_name']]['binance_price'])
+            $data[$tag][$row['bi_name']]['type13'] = abs((($data[$tag][$row['bi_name']]['huobi_price'] - $data[$tag][$row['bi_name']]['binance_price']) / ($data[$tag][$row['bi_name']]['huobi_price'] + $data[$tag][$row['bi_name']]['binance_price'])) * 100);
+
+        if ($data[$tag][$row['bi_name']]['huobi_price'] && $data[$tag][$row['bi_name']]['bittrex_price'])
+            $data[$tag][$row['bi_name']]['type14'] = abs((($data[$tag][$row['bi_name']]['huobi_price'] - $data[$tag][$row['bi_name']]['bittrex_price']) / ($data[$tag][$row['bi_name']]['huobi_price'] + $data[$tag][$row['bi_name']]['bittrex_price'])) * 100);
+
+        if ($data[$tag][$row['bi_name']]['gateio_price'] && $data[$tag][$row['bi_name']]['binance_price'])
+            $data[$tag][$row['bi_name']]['type23'] = abs((($data[$tag][$row['bi_name']]['gateio_price'] - $data[$tag][$row['bi_name']]['binance_price']) / ($data[$tag][$row['bi_name']]['gateio_price'] + $data[$tag][$row['bi_name']]['binance_price'])) * 100);
+
+        if ($data[$tag][$row['bi_name']]['gateio_price'] && $data[$tag][$row['bi_name']]['bittrex_price'])
+            $data[$tag][$row['bi_name']]['type24'] = abs((($data[$tag][$row['bi_name']]['gateio_price'] - $data[$tag][$row['bi_name']]['bittrex_price']) / ($data[$tag][$row['bi_name']]['gateio_price'] + $data[$tag][$row['bi_name']]['bittrex_price'])) * 100);
+
+        if ($data[$tag][$row['bi_name']]['binance_price'] && $data[$tag][$row['bi_name']]['bittrex_price'])
+            $data[$tag][$row['bi_name']]['type34'] = abs((($data[$tag][$row['bi_name']]['binance_price'] - $data[$tag][$row['bi_name']]['bittrex_price']) / ($data[$tag][$row['bi_name']]['binance_price'] + $data[$tag][$row['bi_name']]['bittrex_price'])) * 100);
     }
 
     return $data;
@@ -149,42 +185,60 @@ function formatIcon2($rows) {
 
 function formatIconCount($rows) {
     $data = [];
-    $data['count'] = count($rows);
+    $count = count($rows);
+    $data['count'] = $count;
 
     $data['list']  = [];
 
     $list = [];
     foreach ($rows as $key=>$row) {
         foreach ($row as $bi_name=>$item) {
-            $tp = "tp_".$item['tp_id'];
-            if (!isset($list[$tp])) {
-                $list[$tp] = [];
+            $list[$bi_name]['bi_name']    = $item['bi_name'];
+            $list[$bi_name]['tp_id']      = $item['tp_id'];
+            $list[$bi_name]['pair']       = $item['pair'];
+            $list[$bi_name]['pair_lable'] = $item['pair_lable'];
+            $list[$bi_name]['create_at']  = $item['create_at'];
+
+            if (!$list[$bi_name]['huobi_price']) {
+                $list[$bi_name]['huobi_price']   = $item['huobi_price'];
+            }
+            if (!$list[$bi_name]['gateio_price']) {
+                $list[$bi_name]['gateio_price']  = $item['gateio_price'];
+            }
+            if (!$list[$bi_name]['binance_price']) {
+                $list[$bi_name]['binance_price'] = $item['binance_price'];
+            }
+            if (!$list[$bi_name]['bittrex_price']) {
+                $list[$bi_name]['bittrex_price'] = $item['bittrex_price'];
             }
 
-            $list[$tp][$bi_name]['bi_name']    = $item['bi_name'];
-            $list[$tp][$bi_name]['tp_id']      = $item['tp_id'];
-            $list[$tp][$bi_name]['pair']       = $item['pair'];
-            $list[$tp][$bi_name]['pair_lable'] = $item['pair_lable'];
-            $list[$tp][$bi_name]['create_at']  = $item['create_at'];
-
-            if (!isset($list[$tp][$bi_name]['huobi_price'])) {
-                $list[$tp][$bi_name]['huobi_price']   = 0;
-            }
-            if (!isset($list[$tp]['gateio_price'])) {
-                $list[$tp][$bi_name]['gateio_price']  = 0;
-            }
-            if (!isset($list[$tp]['binance_price'])) {
-                $list[$tp][$bi_name]['binance_price'] = 0;
-            }
-            if (!isset($list[$tp]['bittrex_price'])) {
-                $list[$tp][$bi_name]['bittrex_price'] = 0;
-            }
-
-            $list[$tp][$bi_name]['huobi_price']   += $item['huobi_price'];
-            $list[$tp][$bi_name]['gateio_price']  += $item['gateio_price'];
-            $list[$tp][$bi_name]['binance_price'] += $item['binance_price'];
-            $list[$tp][$bi_name]['bittrex_price'] += $item['bittrex_price'];
+            $list[$bi_name]['type12'] += $item['type12'];
+            $list[$bi_name]['type13'] += $item['type13'];
+            $list[$bi_name]['type14'] += $item['type14'];
+            $list[$bi_name]['type23'] += $item['type23'];
+            $list[$bi_name]['type24'] += $item['type24'];
+            $list[$bi_name]['type34'] += $item['type34'];
         }
+    }
+
+    $arr_data = [];
+    foreach ($list as $key=>$item) {
+        $arr_data[$key]['bi_name']       = $item['bi_name'];
+        $arr_data[$key]['tp_id']         = $item['tp_id'];
+        $arr_data[$key]['pair']          = $item['pair'];
+        $arr_data[$key]['pair_lable']    = $item['pair_lable'];
+        $arr_data[$key]['create_at']     = $item['create_at'];
+        $arr_data[$key]['huobi_price']   = $item['huobi_price'];
+        $arr_data[$key]['gateio_price']  = $item['gateio_price'];
+        $arr_data[$key]['binance_price'] = $item['binance_price'];
+        $arr_data[$key]['bittrex_price'] = $item['bittrex_price'];
+
+        $arr_data[$key]['type12']        = round(($item['type12'] / $count),4);
+        $arr_data[$key]['type13']        = round(($item['type13'] / $count),4);
+        $arr_data[$key]['type14']        = round(($item['type14'] / $count),4);
+        $arr_data[$key]['type23']        = round(($item['type23'] / $count),4);
+        $arr_data[$key]['type24']        = round(($item['type24'] / $count),4);
+        $arr_data[$key]['type34']        = round(($item['type34'] / $count),4);
     }
     $data['list'] = $list;
 

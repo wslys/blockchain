@@ -17,12 +17,12 @@ include "../../lib/EasyDB/basic_db.php";
 include "../../lib/func/func.php";
 include "../../conf/conf.php";
 
-sleep(5);
+$file = "/home/user/php-projects/blockchain/public/file/log-huobi.txt";
+file_put_contents($file, "火币平台", FILE_APPEND);
+sleep(5); // 程序暂停5秒后在运行
 $time_stamp = time();
 $tags = getTag2($db);
 $tag  = $tags['id'];
-
-$file = "/home/user/php-projects/blockchain/public/file/log-huobi.txt";
 file_put_contents($file, date("Y:m:d H:i:s", time()) . ":> tag is : " . $tag ." \n", FILE_APPEND);
 
 $HuoBi = new HuoBi($conf['huobi']['ACCESS_KEY'], $conf['huobi']['SECRET_KEY']);
