@@ -112,7 +112,7 @@ $lables = $conf['lables'];
                                                     <tbody>
                                                     <?php foreach ($usdt_list[$key] as $k=>$item) { ?>
                                                         <tr>
-                                                            <td><a href="detail.php?name=<?= $k ?>&type=USDT_<?= $key ?>"><?= $k ?></a></td>
+                                                            <td><a href="detail2.php?name=<?= $k ?>&type=USDT_<?= $key ?>"><?= $k ?></a></td>
                                                             <td><?= strtr($item['pair'], '_', '/') ?></td>
                                                             <td><?php
                                                                     switch ($key) {

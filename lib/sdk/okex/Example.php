@@ -2,8 +2,8 @@
 
 require_once (dirname(__FILE__) . '/OKCoin/OKCoin.php');
 
-const API_KEY = "OKCoin提供的api_key";
-const SECRET_KEY = "OKCoin提供的secret_key";
+const API_KEY = "d5eb7d58-ff33-4600-8121-7a26cec4fd9b";
+const SECRET_KEY = "BD67A37972581615EEDFD145A0304AE9";
 
 try {
 

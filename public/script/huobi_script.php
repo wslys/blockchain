@@ -19,7 +19,7 @@ include "../../conf/conf.php";
 
 $file = "/home/user/php-projects/blockchain/public/file/log-huobi.txt";
 file_put_contents($file, "火币平台", FILE_APPEND);
-sleep(5); // 程序暂停5秒后在运行
+sleep(30); // 程序暂停30秒后在运行
 $time_stamp = time();
 $tags = getTag2($db);
 $tag  = $tags['id'];

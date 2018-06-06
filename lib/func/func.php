@@ -115,37 +115,17 @@ function formatIcon2($rows) {
         $data[$tag][$row['bi_name']]['pair_lable'] = $row['pair_lable'];
         $data[$tag][$row['bi_name']]['create_at']  = $row['create_at'];
 
-        if (!isset($data[$tag][$row['bi_name']]['huobi_price'])) {
-            $data[$tag][$row['bi_name']]['huobi_price']   = 0;
-        }
-        if (!isset($data[$tag][$row['bi_name']]['gateio_price'])) {
-            $data[$tag][$row['bi_name']]['gateio_price']  = 0;
-        }
-        if (!isset($data[$tag][$row['bi_name']]['binance_price'])) {
-            $data[$tag][$row['bi_name']]['binance_price'] = 0;
-        }
-        if (!isset($data[$tag][$row['bi_name']]['bittrex_price'])) {
-            $data[$tag][$row['bi_name']]['bittrex_price'] = 0;
-        }
+        if (!isset($data[$tag][$row['bi_name']]['huobi_price']))   $data[$tag][$row['bi_name']]['huobi_price']   = 0;
+        if (!isset($data[$tag][$row['bi_name']]['gateio_price']))  $data[$tag][$row['bi_name']]['gateio_price']  = 0;
+        if (!isset($data[$tag][$row['bi_name']]['binance_price'])) $data[$tag][$row['bi_name']]['binance_price'] = 0;
+        if (!isset($data[$tag][$row['bi_name']]['bittrex_price'])) $data[$tag][$row['bi_name']]['bittrex_price'] = 0;
 
-        if (!isset($data[$tag][$row['bi_name']]['type12'])) {
-            $data[$tag][$row['bi_name']]['type12'] = '平台不支持';
-        }
-        if (!isset($data[$tag][$row['bi_name']]['type13'])) {
-            $data[$tag][$row['bi_name']]['type13'] = '平台不支持';
-        }
-        if (!isset($data[$tag][$row['bi_name']]['type14'])) {
-            $data[$tag][$row['bi_name']]['type14'] = '平台不支持';
-        }
-        if (!isset($data[$tag][$row['bi_name']]['type23'])) {
-            $data[$tag][$row['bi_name']]['type23'] = '平台不支持';
-        }
-        if (!isset($data[$tag][$row['bi_name']]['type24'])) {
-            $data[$tag][$row['bi_name']]['type24'] = '平台不支持';
-        }
-        if (!isset($data[$tag][$row['bi_name']]['type34'])) {
-            $data[$tag][$row['bi_name']]['type34'] = '平台不支持';
-        }
+        if (!isset($data[$tag][$row['bi_name']]['type12'])) $data[$tag][$row['bi_name']]['type12'] = '平台不支持';
+        if (!isset($data[$tag][$row['bi_name']]['type13'])) $data[$tag][$row['bi_name']]['type13'] = '平台不支持';
+        if (!isset($data[$tag][$row['bi_name']]['type14'])) $data[$tag][$row['bi_name']]['type14'] = '平台不支持';
+        if (!isset($data[$tag][$row['bi_name']]['type23'])) $data[$tag][$row['bi_name']]['type23'] = '平台不支持';
+        if (!isset($data[$tag][$row['bi_name']]['type24'])) $data[$tag][$row['bi_name']]['type24'] = '平台不支持';
+        if (!isset($data[$tag][$row['bi_name']]['type34'])) $data[$tag][$row['bi_name']]['type34'] = '平台不支持';
 
         switch ($row['tp_id']) {
             case 1:
@@ -155,10 +135,10 @@ function formatIcon2($rows) {
                 $data[$tag][$row['bi_name']]['gateio_price']  = $row['price'];
                 break;
             case 3:
-                $data[$tag][$row['bi_name']]['binance_price']  = $row['price'];
+                $data[$tag][$row['bi_name']]['binance_price'] = $row['price'];
                 break;
             case 4:
-                $data[$tag][$row['bi_name']]['bittrex_price']  = $row['price'];
+                $data[$tag][$row['bi_name']]['bittrex_price'] = $row['price'];
                 break;
         }
         if ($data[$tag][$row['bi_name']]['huobi_price'] && $data[$tag][$row['bi_name']]['gateio_price'])
@@ -199,18 +179,10 @@ function formatIconCount($rows) {
             $list[$bi_name]['pair_lable'] = $item['pair_lable'];
             $list[$bi_name]['create_at']  = $item['create_at'];
 
-            if (!$list[$bi_name]['huobi_price']) {
-                $list[$bi_name]['huobi_price']   = $item['huobi_price'];
-            }
-            if (!$list[$bi_name]['gateio_price']) {
-                $list[$bi_name]['gateio_price']  = $item['gateio_price'];
-            }
-            if (!$list[$bi_name]['binance_price']) {
-                $list[$bi_name]['binance_price'] = $item['binance_price'];
-            }
-            if (!$list[$bi_name]['bittrex_price']) {
-                $list[$bi_name]['bittrex_price'] = $item['bittrex_price'];
-            }
+            if (!$list[$bi_name]['huobi_price'])   $list[$bi_name]['huobi_price']   = $item['huobi_price'];
+            if (!$list[$bi_name]['gateio_price'])  $list[$bi_name]['gateio_price']  = $item['gateio_price'];
+            if (!$list[$bi_name]['binance_price']) $list[$bi_name]['binance_price'] = $item['binance_price'];
+            if (!$list[$bi_name]['bittrex_price']) $list[$bi_name]['bittrex_price'] = $item['bittrex_price'];
 
             $list[$bi_name]['type12'] += $item['type12'];
             $list[$bi_name]['type13'] += $item['type13'];
@@ -240,7 +212,7 @@ function formatIconCount($rows) {
         $arr_data[$key]['type24']        = round(($item['type24'] / $count),4);
         $arr_data[$key]['type34']        = round(($item['type34'] / $count),4);
     }
-    $data['list'] = $list;
+    $data['list'] = $arr_data;
 
     return $data;
 }

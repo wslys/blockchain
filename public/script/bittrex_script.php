@@ -18,7 +18,7 @@ include "../../lib/EasyDB/basic_db.php";
 include "../../lib/func/func.php";
 include "../../conf/conf.php";
 
-sleep(5); // 程序暂停5秒后在运行
+sleep(30); // 程序暂停30秒后在运行
 $time_stamp = time();
 $tags = getTag2($db);
 $tag  = $tags['id'];
