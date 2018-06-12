@@ -163,6 +163,37 @@ switch ($type) {
 
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style>
+        .test{
+            width: 50px;
+            height: 200px;
+            overflow: auto;
+            float: left;
+            margin: 5px;
+            border: none;
+        }
+        .scrollbar{
+            width: 30px;
+            height: 300px;
+            margin: 0 auto;
+
+        }
+        .test-1::-webkit-scrollbar {/*滚动条整体样式*/
+            width: 2px;     /*高宽分别对应横竖滚动条的尺寸*/
+            height: 1px;
+        }
+        .test-1::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+            border-radius: 2px;
+            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            background: #535353;
+        }
+        .test-1::-webkit-scrollbar-track {/*滚动条里面轨道*/
+            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            border-radius: 2px;
+            background: #EDEDED;
+        }
+    </style>
 </head>
 <body>
 <!-- Start header -->
@@ -201,97 +232,111 @@ switch ($type) {
     <div class="container">
         <div class="row margin-b-lg">
             <div class="col-md-12 text-center">
-                <h2 class="section-heading" style="/*display: inline-block;*/">多交易平台虚拟货币<br class="hidden-xs"> 市场深度 <span class="text-green"> 对比 </span></h2>
-                <div class="row">
-                    <table class="table">
-                        <tr>
-                            <td>币名</td>
-                            <td>BTC————————</td>
-                        </tr>
-                        <tr>
-                            <td>平台一</td>
-                            <td>BTC++++</td>
-                        </tr>
-                        <tr>
-                            <td>平台二</td>
-                            <td>BTC====</td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="row">
+                <h2 class="section-heading" style="/*display: inline-block;*/">多交易平台虚拟货币<br class="hidden-xs">  <span class="text-green"> 市场深度 </span></h2>
 
-                    <div class="col-md-6">
-                        <h4><?= $lables[$type]['pt1'] ?></h4>
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th class="text-center">#</th>
-                                <th class="text-center">价格</th>
-                                <th class="text-center">数量</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($plat1_data['depth']['asks'] as $ask) { ?>
+                <div style="z-index:1000;">
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <h4><?= $lables[$type]['pt1'] ?></h4>
+                            <table class="table">
+                                <thead>
                                 <tr>
-                                    <td>卖</td>
-                                    <td><?= $ask[0] ?></td>
-                                    <td><?= $ask[1] ?></td>
+                                    <th>#</th>
+                                    <th>价格</th>
+                                    <th>数量</th>
                                 </tr>
-                            <?php } ?>
-                            <tr>
-                                <td colspan="3"><hr style="border: 1px solid #ddd"/></td>
-                            </tr>
-                            <?php foreach ($plat2_data['depth']['bids'] as $ask) { ?>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h4><?= $lables[$type]['pt2'] ?></h4>
+                            <table class="table">
+                                <thead>
                                 <tr>
-                                    <td>买</td>
-                                    <td><?= $ask[0] ?></td>
-                                    <td><?= $ask[1] ?></td>
+                                    <th>#</th>
+                                    <th>价格</th>
+                                    <th>数量</th>
                                 </tr>
-                            <?php }?>
-                            </tbody>
-                        </table>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="height:565px;position:relative;z-index:1001;">
+                        <div id="div_1" class="test-1" style="width:95%;height:279px;z-index:999;position:absolute;bottom: 280px;overflow:auto;">
+                            <table class="table" style="margin-bottom: 1px;">
+                                <tbody>
+                                <?php foreach ($plat1_data['depth']['asks'] as $ask) { ?>
+                                    <tr>
+                                        <td style="padding: 0">卖</td>
+                                        <td style="padding: 0"><?= $ask[0] ?></td>
+                                        <td style="padding: 0"><?= $ask[1] ?></td>
+                                    </tr>
+                                <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div style="width:90%;height:2px;border-bottom:1px solid #636b6f;z-index:999;position:absolute;top:280px;"></div>
+
+                        <div class="test-1" style="width:95%;height:279px;z-index:999;position:absolute;top: 285px;overflow:auto;">
+                            <table class="table">
+                                <tbody>
+                                <?php foreach ($plat2_data['depth']['bids'] as $ask) { ?>
+                                    <tr>
+                                        <td style="padding: 0">买</td>
+                                        <td style="padding: 0"><?= $ask[0] ?></td>
+                                        <td style="padding: 0"><?= $ask[1] ?></td>
+                                    </tr>
+                                <?php }?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <h4><?= $lables[$type]['pt2'] ?></h4>
-                        <table>
-                            <thead>
-                            <th style="text-align: center;">卖价</th>
-                            <th style="text-align: center;">卖量</th>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($plat2_data['depth']['bids'] as $ask) { ?>
-                                <tr>
-                                    <td><?= $ask[0] ?></td>
-                                    <td><?= $ask[1] ?></td>
-                                </tr>
-                            <?php }?>
-                            </tbody>
-                            </tbody>
-                        </table>
-                        <table>
-                            <thead>
-                            <th style="text-align: center;">买价</th>
-                            <th style="text-align: center;">买量</th>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($plat2_data['depth']['bids'] as $ask) { ?>
-                                <tr>
-                                    <td><?= $ask[0] ?></td>
-                                    <td><?= $ask[1] ?></td>
-                                </tr>
-                            <?php }?>
-                            </tbody>
-                            </tbody>
-                        </table>
-                    </div>
+                    <div class="col-md-6" style="height:565px;position:relative;z-index:1001;">
+                        <div id="div_2" class="test-1" style="width:95%;height:279px;z-index:999;position:absolute;bottom: 280px;overflow:auto;">
+                            <table class="table" style="margin-bottom: 1px;">
+                                <tbody>
+                                <?php foreach ($plat2_data['depth']['bids'] as $ask) { ?>
+                                    <tr>
+                                        <td style="padding: 0">卖</td>
+                                        <td style="padding: 0"><?= $ask[0] ?></td>
+                                        <td style="padding: 0"><?= $ask[1] ?></td>
+                                    </tr>
+                                <?php }?>
+                                </tbody>
+                            </table>
+                        </div>
 
+                        <div style="width:90%;height:2px;border-bottom:1px solid #636b6f;z-index:999;position:absolute;top:280px;"></div>
+
+                        <div class="test-1" style="width:95%;height:279px;z-index:999;position:absolute;top: 285px;overflow:auto;">
+                            <table class="table">
+                                <tbody>
+                                <?php foreach ($plat2_data['depth']['bids'] as $ask) { ?>
+                                    <tr>
+                                        <td style="padding: 0">买</td>
+                                        <td style="padding: 0"><?= $ask[0] ?></td>
+                                        <td style="padding: 0"><?= $ask[1] ?></td>
+                                    </tr>
+                                <?php }?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
+        <div class="row"></div>
     </div>
 </section>
 <!-- End Start Trial -->
-
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#div_1').scrollTop( $('#div_1')[0].scrollHeight);
+        $('#div_2').scrollTop( $('#div_2')[0].scrollHeight);
+    });
+</script>
 </body>
 </html>
